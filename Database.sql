@@ -117,3 +117,15 @@ INSERT INTO Quest VALUES (7, 'Moonlit Mirage Conundrum');
 INSERT INTO Quest VALUES (8, 'Secrets of the Celestial Garden');
 INSERT INTO Quest VALUES (9, 'The Ebonfire Ritual');
 INSERT INTO Quest VALUES (10, 'Enigma of the Astral Isles');
+
+
+INSERT INTO Guild VALUES (1, 10, 'Eternal Eclipse Syndicate');
+INSERT INTO Guild VALUES (2, 20, 'Whispering Shadows Alliance');
+INSERT INTO Guild VALUES (3, 15, 'Sapphire Serpent Society');
+INSERT INTO Guild VALUES (4, 25, 'Celestial Vanguard');
+INSERT INTO Guild VALUES (5, 18, 'Golden Griffin Brotherhood');
+INSERT INTO Guild VALUES (6, 30, 'Radiant Rose Coalition');
+INSERT INTO Guild VALUES (7, 22, 'Silent Storm Union');
+INSERT INTO Guild VALUES (8, 12, 'Lunar Phoenix Clan');
+INSERT INTO Guild VALUES (9, 28, 'Iron Crown Syndicate');
+INSERT INTO Guild VALUES (10, 17, 'Ember Wolf Pack');
