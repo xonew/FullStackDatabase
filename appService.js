@@ -87,6 +87,20 @@ async function insertDemotable(id, name) {
     });
 }
 
+async function insertPlayer(id, name, statusID, guildID) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO Player (ID, Name, StatusID, GuildID) VALUES (:id, :name, :statusID, :guildID)`,
+            [id, name, statusID, guildID],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 async function updateNameDemotable(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -109,6 +123,26 @@ async function countDemotable() {
         return -1;
     });
 }
+
+// async function selection() {
+
+//     let mysql = require('mysql');
+//     let config = require('./config.js');
+
+//     let connection = mysql.createConnection(config);
+
+//     let sql = `SELECT * FROM todos WHERE completed=?`;
+//     connection.query(sql, [true], (error, results, fields) => {
+//     if (error) {
+//         return console.error(error.message);
+//     }
+//     console.log(results);
+//     });
+
+//     connection.end();
+// }
+
+
 
 module.exports = {
     testOracleConnection,
