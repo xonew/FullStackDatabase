@@ -1,7 +1,6 @@
 CREATE TABLE Player (
     ID          INT PRIMARY KEY,
     Name        VARCHAR(20),
-    Guild       INT,
     StatusID    INT,
     GuildID    INT,
     FOREIGN KEY (StatusID) REFERENCES Status,
