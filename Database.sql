@@ -145,3 +145,4 @@ INSERT INTO Guild VALUES (7, 22, 'Silent Storm Union');
 INSERT INTO Guild VALUES (8, 12, 'Lunar Phoenix Clan');
 INSERT INTO Guild VALUES (9, 28, 'Iron Crown Syndicate');
 INSERT INTO Guild VALUES (10, 17, 'Ember Wolf Pack');
+
