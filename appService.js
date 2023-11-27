@@ -46,7 +46,7 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM PLAYERTABLE');
+        const result = await connection.execute('SELECT * FROM DEMOTABLE');
         return result.rows;
     }).catch(() => {
         return [];
@@ -56,17 +56,15 @@ async function fetchDemotableFromDb() {
 async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE PLAYERTABLE`);
+            await connection.execute(`DROP TABLE DEMOTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
         const result = await connection.execute(`
-            CREATE TABLE PLAYERTABLE (
-                ID INT PRIMARY KEY,
-                Name VARCHAR(20),
-                StatusID INT,
-                GuildID INT
+            CREATE TABLE DEMOTABLE (
+                id NUMBER PRIMARY KEY,
+                name VARCHAR2(20)
             )
         `);
         return true;
@@ -80,20 +78,6 @@ async function insertDemotable(id, name) {
         const result = await connection.execute(
             `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
             [id, name],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function insertPlayer(id, name, statusID, guildID) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO Player (ID, Name, StatusID, GuildID) VALUES (:id, :name, :statusID, :guildID)`,
-            [id, name, statusID, guildID],
             { autoCommit: true }
         );
 
@@ -126,43 +110,6 @@ async function countDemotable() {
     });
 }
 
-async function deletePlayer(id) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `DELETE FROM Player WHERE ID = :id`,
-            [id],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-
-// async function selection() {
-
-//     let mysql = require('mysql');
-//     let config = require('./config.js');
-
-//     let connection = mysql.createConnection(config);
-
-//     let sql = `SELECT * FROM todos WHERE completed=?`;
-//     connection.query(sql, [true], (error, results, fields) => {
-//     if (error) {
-//         return console.error(error.message);
-//     }
-//     console.log(results);
-//     });
-
-//     connection.end();
-// }
-
-// return Rquipment with the largest ATK
-
-
-
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
@@ -171,4 +118,3 @@ module.exports = {
     updateNameDemotable, 
     countDemotable
 };
-// git commit and push test
