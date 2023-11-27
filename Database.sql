@@ -13,14 +13,12 @@
 CREATE TABLE Player (
     ID          INT PRIMARY KEY,
     Name        VARCHAR(20),
-    StatusID    INT,
+    Lv    INT,
     GuildID    INT
 );
 
 CREATE TABLE Status (
-    StatusID INT PRIMARY KEY,
-    PlayerID INT,
-    LV INT,
+    LV INT PRIMARY KEY,
     HP INT,
     MY INT,
     ATK INT,
@@ -34,7 +32,7 @@ CREATE TABLE Guild (
 );
 
 ALTER TABLE Player ADD CONSTRAINT StatusID
-    FOREIGN KEY (StatusID) REFERENCES Status(StatusID);
+    FOREIGN KEY (Lv) REFERENCES Status(Lv);
 
 ALTER TABLE Player ADD CONSTRAINT GuildID
     FOREIGN KEY (GuildID) REFERENCES Guild(ID);
