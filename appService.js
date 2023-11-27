@@ -59,13 +59,15 @@ async function initiateDemotable() {
             await connection.execute(`DROP TABLE PLAYER`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
+            console.log(await connection.execute(`select 'drop table ', table_name, 'cascade constraints;' from user_tables`));
+            console.log(err);
         }
 
         const result = await connection.execute(`
             CREATE TABLE PLAYER (
                 id INT PRIMARY KEY,
                 name VARCHAR(20),
-                statusID INT,
+                lv INT,
                 guildID  INT
             )
         `);
@@ -75,11 +77,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name, statusID, guildID) {
+async function insertDemotable(id, name, lv, guildID) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO PLAYER (id, name, statusID, guildID) VALUES (:id, :name, :statusID, :guildID)`,
-            [id, name, statusID, guildID],
+            `INSERT INTO PLAYER (id, name, lv, guildID) VALUES (:id, :name, :lv, :guildID)`,
+            [id, name, lv, guildID],
             { autoCommit: true }
         );
 

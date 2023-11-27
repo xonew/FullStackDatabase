@@ -1,7 +1,7 @@
 -- DROP TABLE Guild;
 -- ALTER TABLE Player DROP CONSTRAINT StatusID;
 -- ALTER TABLE Player DROP CONSTRAINT GuildID;
--- DROP TABLE Player;
+ DROP TABLE Player CASCADE CONSTRAINTS;
 -- DROP TABLE Status;
 -- DROP TABLE InventoryRecord;
 -- DROP TABLE Inventory;
@@ -10,19 +10,19 @@
 -- DROP TABLE Quest;
 -- DROP TABLE QuestRecord;
 
+CREATE TABLE Status (
+    Lv INT PRIMARY KEY,
+    HP INT,
+    MY INT,
+    ATK INT
+);
+
 CREATE TABLE Player (
     ID          INT PRIMARY KEY,
     Name        VARCHAR(20),
     Lv    INT,
-    GuildID    INT
-);
-
-CREATE TABLE Status (
-    LV INT PRIMARY KEY,
-    HP INT,
-    MY INT,
-    ATK INT,
-    FOREIGN KEY (PlayerID) REFERENCES Player(ID)
+    GuildID    INT,
+    FOREIGN KEY (Lv) REFERENCES Status(Lv)
 );
 
 CREATE TABLE Guild (
@@ -31,16 +31,8 @@ CREATE TABLE Guild (
     Name VARCHAR(50)
 );
 
-ALTER TABLE Player ADD CONSTRAINT StatusID
-    FOREIGN KEY (Lv) REFERENCES Status(Lv);
-
 ALTER TABLE Player ADD CONSTRAINT GuildID
     FOREIGN KEY (GuildID) REFERENCES Guild(ID);
-
-CREATE TABLE InventoryRecord (
-    InventoryID INT,
-    PlayerID INT
-);
 
 CREATE TABLE Inventory (
     InventoryID INT PRIMARY KEY,
@@ -50,6 +42,15 @@ CREATE TABLE Inventory (
     MP_plus INT,
     ATK_plus INT
 );
+
+CREATE TABLE InventoryRecord (
+    InventoryID INT,
+    PlayerID INT,
+    FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON DELETE CASCADE,
+    FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
+);
+
+
 
 CREATE TABLE Equipment (
     EquipmentID INT NOT NULL,
@@ -71,7 +72,7 @@ CREATE TABLE QuestRecord (
     QuestID INT,
     PlayerID INT,
     FOREIGN KEY (QuestID) REFERENCES Quest(ID),
-    FOREIGN KEY (PlayerID) REFERENCES Player(ID)
+    FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
 
 
