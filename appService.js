@@ -140,6 +140,7 @@ async function deletePlayer(id) {
     });
 }
 
+
 // async function selection() {
 
 //     let mysql = require('mysql');
@@ -157,6 +158,8 @@ async function deletePlayer(id) {
 
 //     connection.end();
 // }
+
+// return Rquipment with the largest ATK
 
 
 
