@@ -46,7 +46,7 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute('SELECT * FROM PLAYERTABLE');
         return result.rows;
     }).catch(() => {
         return [];
@@ -56,15 +56,17 @@ async function fetchDemotableFromDb() {
 async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE DEMOTABLE`);
+            await connection.execute(`DROP TABLE PLAYERTABLE`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
         const result = await connection.execute(`
-            CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
+            CREATE TABLE PLAYERTABLE (
+                ID INT PRIMARY KEY,
+                Name VARCHAR(20),
+                StatusID INT,
+                GuildID INT
             )
         `);
         return true;
@@ -94,7 +96,7 @@ async function insertPlayer(id, name, statusID, guildID) {
             [id, name, statusID, guildID],
             { autoCommit: true }
         );
-        
+
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
@@ -121,6 +123,20 @@ async function countDemotable() {
         return result.rows[0][0];
     }).catch(() => {
         return -1;
+    });
+}
+
+async function deletePlayer(id) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `DELETE FROM Player WHERE ID = :id`,
+            [id],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
     });
 }
 
