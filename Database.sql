@@ -1,11 +1,20 @@
+-- DROP TABLE Guild;
+-- ALTER TABLE Player DROP CONSTRAINT StatusID;
+-- ALTER TABLE Player DROP CONSTRAINT GuildID;
+-- DROP TABLE Player;
+-- DROP TABLE Status;
+-- DROP TABLE InventoryRecord;
+-- DROP TABLE Inventory;
+-- DROP TABLE Equipment;
+-- DROP TABLE Item;
+-- DROP TABLE Quest;
+-- DROP TABLE QuestRecord;
+
 CREATE TABLE Player (
     ID          INT PRIMARY KEY,
     Name        VARCHAR(20),
-    Guild       INT,
     StatusID    INT,
-    GuildID    INT,
-    FOREIGN KEY (StatusID) REFERENCES Status,
-    FOREIGN KEY (GuildID) REFERENCES Guild
+    GuildID    INT
 );
 
 CREATE TABLE Status (
@@ -15,14 +24,20 @@ CREATE TABLE Status (
     HP INT,
     MY INT,
     ATK INT,
-    FOREIGN KEY (PlayerID) REFERENCES Player
+    FOREIGN KEY (PlayerID) REFERENCES Player(ID)
 );
 
 CREATE TABLE Guild (
     ID INT PRIMARY KEY,
     LV INT,
-    Name VARCHAR(20)
+    Name VARCHAR(50)
 );
+
+ALTER TABLE Player ADD CONSTRAINT StatusID
+    FOREIGN KEY (StatusID) REFERENCES Status(StatusID);
+
+ALTER TABLE Player ADD CONSTRAINT GuildID
+    FOREIGN KEY (GuildID) REFERENCES Guild(ID);
 
 CREATE TABLE InventoryRecord (
     InventoryID INT,
@@ -30,34 +45,35 @@ CREATE TABLE InventoryRecord (
 );
 
 CREATE TABLE Inventory (
-    InventoryID INT,
-    Name VARCHAR(20),
-    Type VARCHAR(20),
+    InventoryID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Type VARCHAR(50),
     HP_plus INT,
     MP_plus INT,
     ATK_plus INT
 );
 
 CREATE TABLE Equipment (
-    EquipmentID VARCHAR(20) not null REFERENCES Inventory(InventoryID),
-    PRIMARY KEY(EquipmentID)
+    EquipmentID INT NOT NULL,
+    PRIMARY KEY (EquipmentID),
+    FOREIGN KEY (EquipmentID) REFERENCES Inventory(InventoryID)
 );
 
 CREATE TABLE Item (
-    ItemID VARCHAR(20) not null REFERENCES Inventory(InventoryID),
+    ItemID INT not null REFERENCES Inventory(InventoryID),
     PRIMARY KEY(ItemID)
 );
 
 CREATE TABLE Quest (
     ID INT PRIMARY KEY,
-    Name VARCHAR(20)
+    Name VARCHAR(50)
 );
 
 CREATE TABLE QuestRecord (
     QuestID INT,
     PlayerID INT,
-    FOREIGN KEY (QuestID) REFERENCES Quest,
-    FOREIGN KEY (PlayerID) REFERENCES Player
+    FOREIGN KEY (QuestID) REFERENCES Quest(ID),
+    FOREIGN KEY (PlayerID) REFERENCES Player(ID)
 );
 
 
