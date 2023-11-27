@@ -71,7 +71,7 @@ async function resetDemotable() {
 
     if (responseData.success) {
         const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "demotable initiated successfully!";
+        messageElement.textContent = "Playertable initiated successfully!";
         fetchTableData();
     } else {
         alert("Error initiating table!");
@@ -84,6 +84,8 @@ async function insertDemotable(event) {
 
     const idValue = document.getElementById('insertId').value;
     const nameValue = document.getElementById('insertName').value;
+    const statusValue = document.getElementById('insertStatusID').value;
+    const GuildValue = document.getElementById('insertGuildID').value;
 
     const response = await fetch('/insert-demotable', {
         method: 'POST',
@@ -92,7 +94,9 @@ async function insertDemotable(event) {
         },
         body: JSON.stringify({
             id: idValue,
-            name: nameValue
+            name: nameValue,
+            statusID: statusValue,
+            guildID: GuildValue
         })
     });
 
