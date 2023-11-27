@@ -172,3 +172,36 @@ window.onload = function() {
 function fetchTableData() {
     fetchAndDisplayUsers();
 }
+
+// Inserts new records into the demotable.
+async function insertPlayertable(event) {
+    event.preventDefault();
+
+    const idValue = document.getElementById('insertId').value;
+    const nameValue = document.getElementById('insertName').value;
+    const statusIdValue = document.getElementById('statusId').value;
+    const guildIdValue = document.getElementById('guildId').value;
+
+    const response = await fetch('/insert-demotable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: idValue,
+            name: nameValue,
+            statusId: statusIdValue,
+            guildID: guildIdValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Data inserted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error inserting data!";
+    }
+}
