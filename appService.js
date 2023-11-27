@@ -94,7 +94,7 @@ async function insertPlayer(id, name, statusID, guildID) {
             [id, name, statusID, guildID],
             { autoCommit: true }
         );
-
+        
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
