@@ -39,6 +39,16 @@ router.post("/insert-demotable", async (req, res) => {
     }
 });
 
+router.post("/insert-player", async (req, res) => {
+    const { id, name, statusID, guildID } = req.body;
+    const insertResult = await insertPlayer(id, name, statusID, guildID);
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 router.post("/update-name-demotable", async (req, res) => {
     const { oldName, newName } = req.body;
     const updateResult = await appService.updateNameDemotable(oldName, newName);
@@ -66,3 +76,5 @@ router.get('/count-demotable', async (req, res) => {
 
 
 module.exports = router;
+
+// commit change
