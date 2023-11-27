@@ -46,7 +46,7 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute('SELECT * FROM PLAYER');
         return result.rows;
     }).catch(() => {
         return [];
@@ -56,15 +56,17 @@ async function fetchDemotableFromDb() {
 async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
-            await connection.execute(`DROP TABLE DEMOTABLE`);
+            await connection.execute(`DROP TABLE PLAYER`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
         const result = await connection.execute(`
-            CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
+            CREATE TABLE PLAYER (
+                id INT PRIMARY KEY,
+                name VARCHAR(20),
+                statusID INT,
+                guildID  INT
             )
         `);
         return true;
@@ -73,11 +75,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name) {
+async function insertDemotable(id, name, statusID, guildID) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
-            [id, name],
+            `INSERT INTO PLAYER (id, name, statusID, guildID) VALUES (:id, :name, :statusID, :guildID)`,
+            [id, name, statusID, guildID],
             { autoCommit: true }
         );
 
@@ -90,7 +92,7 @@ async function insertDemotable(id, name) {
 async function updateNameDemotable(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
+            `UPDATE PLAYER SET name=:newName where name=:oldName`,
             [newName, oldName],
             { autoCommit: true }
         );
