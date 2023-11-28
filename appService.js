@@ -95,7 +95,7 @@ async function addGuild(playerID, guildID) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `UPDATE PLAYER SET guildID=:guildID where id=:playerID`,
-            [playerID, guildID],
+            [guildID, playerID],
             { autoCommit: true }
         );
 
