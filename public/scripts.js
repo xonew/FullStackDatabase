@@ -172,7 +172,7 @@ async function addStatusLVtoPlayer(event) {
     const playerID = document.getElementById('targetPlayerIDtoAddStatus').value;
     const StatusLV = document.getElementById('targetStatusLVToBeAdded').value;
 
-    const response = await fetch('/add-guild', {
+    const response = await fetch('/add-status', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
