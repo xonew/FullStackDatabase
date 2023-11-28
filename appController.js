@@ -35,6 +35,15 @@ router.post("/initiate-demotable", async (req, res) => {
     }
 });
 
+router.post("/initiate-inventory", async (req, res) => {
+    const initiateResult = await appService.initiateInventory();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 router.post("/insert-demotable", async (req, res) => {
     const { id, name, lv, guildID } = req.body;
     const insertResult = await appService.insertDemotable(id, name, lv, guildID);
