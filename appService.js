@@ -105,6 +105,20 @@ async function addGuild(playerID, guildID) {
     });
 }
 
+async function addStatus(playerID, LV) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE PLAYER SET lv=:LV where id=:playerID`,
+            [LV, playerID],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 async function updateNameDemotable(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -150,5 +164,6 @@ module.exports = {
     updateNameDemotable, 
     countDemotable,
     deletePlayer,
-    addGuild
+    addGuild,
+    addStatus
 };
