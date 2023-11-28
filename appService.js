@@ -91,6 +91,20 @@ async function insertDemotable(id, name, lv, guildID) {
     });
 }
 
+async function addGuild(playerID, guildID) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `UPDATE PLAYER SET guildID=:guildID where id=:playerID`,
+            [playerID, guildID],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
 async function updateNameDemotable(oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -117,7 +131,7 @@ async function countDemotable() {
 async function deletePlayer(id) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `DELETE FROM Player WHERE id = :id`,
+            'DELETE FROM Player WHERE id =:id',
             [id],
             { autoCommit: true }
         );
@@ -135,5 +149,6 @@ module.exports = {
     insertDemotable, 
     updateNameDemotable, 
     countDemotable,
-    deletePlayer
+    deletePlayer,
+    addGuild
 };
