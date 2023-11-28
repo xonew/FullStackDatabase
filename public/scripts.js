@@ -265,6 +265,22 @@ async function fetchAndDisplayInventories() {
     });
 }
 
+// This function resets or initializes the demotable.
+async function loadInventorytable() {
+    const response = await fetch("/initiate-inventory", {
+        method: 'POST'
+    });
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        const messageElement = document.getElementById('loadResultMsg');
+        messageElement.textContent = "Inventory loaded successfully!";
+        fetchTableData();
+    } else {
+        alert("Error loading table!");
+    }
+}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -279,6 +295,7 @@ window.onload = function() {
     document.getElementById("deleteNamePlayertable").addEventListener("submit", deleteNamePlayertable);
     document.getElementById("addGuildIDtoPlayer").addEventListener("submit", addGuildIDtoPlayer);
     document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
+    document.getElementById("loadInventorytable").addEventListener("click", loadInventorytable);
 };
 
 // General function to refresh the displayed table data. 
