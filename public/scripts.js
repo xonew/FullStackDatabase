@@ -239,6 +239,33 @@ async function deleteNamePlayertable(event) {
     }
 }
 
+// Fetches data from the demotable and displays it.
+async function fetchAndDisplayInventories() {
+    const tableElement = document.getElementById('inventorytable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/inventorytable', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const demotableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    demotableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
