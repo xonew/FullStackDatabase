@@ -84,8 +84,6 @@ async function insertDemotable(event) {
 
     const idValue = document.getElementById('insertId').value;
     const nameValue = document.getElementById('insertName').value;
-    const statusValue = document.getElementById('insertStatusID').value;
-    const GuildValue = document.getElementById('insertGuildID').value;
 
     const response = await fetch('/insert-demotable', {
         method: 'POST',
@@ -94,9 +92,7 @@ async function insertDemotable(event) {
         },
         body: JSON.stringify({
             id: idValue,
-            name: nameValue,
-            statusID: statusValue,
-            guildID: GuildValue
+            name: nameValue
         })
     });
 
@@ -170,6 +166,33 @@ window.onload = function() {
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
+
+// Delete a specific player in the demotable.
+async function deleteNamePlayertable(event) {
+    event.preventDefault();
+
+    const targetID = document.getElementById('deleteTargetID').value;
+
+    const response = await fetch('/delete-player', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: targetID
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('deleteNameResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Name deleted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error deleting name!";
+    }
+}
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.

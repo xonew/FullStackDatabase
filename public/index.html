@@ -55,9 +55,6 @@
     <form id="insertDemotable">
         ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
         Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
-        StatusID: <input type="text" id="insertStatusID" placeholder="Enter StatuID" maxlength="20"> <br><br>
-        GuildID: <input type="text" id="insertGuildID" placeholder="Enter GuildID" maxlength="20"> <br><br>
-
         <button type="submit"> insert </button> <br>
     </form>
     <div id="insertResultMsg"></div>
@@ -81,6 +78,18 @@
     <button id="countDemotable"> count </button> <br><br>
     <!-- A placeholder to display the count result. -->
     <div id="countResultMsg"></div> <br>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Delete Name in PlayerTable</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="deleteNamePlayertable">
+        ID: <input type="text" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
+
+        <button type="submit"> Delete</button> <br>
+    </form>
+    <!-- A placeholder to display messages related to the update operation. -->
+    <div id="deleteNameResultMsg"></div>
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
