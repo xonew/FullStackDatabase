@@ -282,12 +282,43 @@ async function fetchAndDisplayInventories() {
 // }
 
 
+// Function to fill the dropdown lists
+function fillDropdownLists() {
+    let tables = {
+      Player: ["ID", "Name", "LV", "GuildID"],
+        Inventory: ["InventoryID", "Name", "Type"],
+    };
+    const tableDropdown = document.getElementById("tableDropdown");
+    const attributeDropdown = document.getElementById("attributeDropdown");
+  
+    for (const table in tables) {
+      const option = document.createElement("option");
+      option.value = table;
+      option.text = table;
+      tableDropdown.add(option);
+    }
+  
+    tableDropdown.addEventListener("change", () => {
+      const selectedTable = tableDropdown.value;
+      const attributes = tables[selectedTable] || [];
+      attributeDropdown.innerHTML = "";
+      for (const attribute of attributes) {
+        const option = document.createElement("option");
+        option.value = attribute;
+        option.text = attribute;
+        attributeDropdown.add(option);
+      }
+      attributeDropdown.multiple = true;
+    });
+  }
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
+    fillDropdownLists();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
@@ -295,11 +326,79 @@ window.onload = function() {
     document.getElementById("deleteNamePlayertable").addEventListener("submit", deleteNamePlayertable);
     document.getElementById("addGuildIDtoPlayer").addEventListener("submit", addGuildIDtoPlayer);
     document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
+    document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
 };
+
+async function displayProjectionTable() {
+    const tableName = document.getElementById("tableDropdown").value;
+  
+    const dropdown = document.getElementById("attributeDropdown");
+    const selectedOptions = Array.from(dropdown.selectedOptions).map(
+      (option) => option.value
+    );
+    const rows = getProjectionTable();
+  
+    if (selectedOptions.length > 0) {
+      try {
+        const tableData = await getProjectionTable(tableName, selectedOptions);
+        const table = document.getElementById("projectionTable");
+  
+        table.innerHTML = "";
+        const headerRow = table.insertRow();
+        for (const attribute of selectedOptions) {
+          const headerCell = headerRow.insertCell();
+          headerCell.textContent = attribute;
+        }
+  
+        // Populate table values
+        for (const rowValues of tableData) {
+          const row = table.insertRow();
+          for (const rowValue of rowValues) {
+            const cell = row.insertCell();
+            cell.textContent = rowValue;
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+  }
+  
+async function getProjectionTable(tableName, selectedOptions) {
+    //const tableName = document.getElementById("tableDropdown").value;
+    const dropdown = document.getElementById("attributeDropdown");
+    //const selectedOptions = Array.from(dropdown.selectedOptions).map(
+    //  (option) => option.value
+    //);
+  
+    if (selectedOptions.length > 0) {
+      try {
+        const response = await fetch("/projection", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            table_name: tableName,
+            attributes: selectedOptions,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`Error retrieving Projection table data!`);
+        }
+        const responseData = await response.json();
+  
+        return responseData;
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+  }
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayInventories();
+    displayProjectionTable();
 }

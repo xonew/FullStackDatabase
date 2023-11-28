@@ -20,6 +20,14 @@ router.get('/demotable', async (req, res) => {
     res.json({data: tableContent});
 });
 
+router.put('/projection', async (req, res) => {
+    const { table_name, attributes } = req.body;
+
+    const tableContent = await appService.performProjection(table_name, attributes);
+
+    res.json({ data: tableContent });
+});
+
 router.get('/inventorytable', async (req, res) => {
     const tableContent = await appService.fetchInventory();
     res.json({data: tableContent});

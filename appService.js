@@ -59,7 +59,6 @@ async function initiateDemotable() {
             await connection.execute(`DROP TABLE PLAYER`);
         } catch(err) {
             console.log('Table might not exist, proceeding to create...');
-            console.log(await connection.execute(`select 'drop table ', table_name, 'cascade constraints;' from user_tables`));
             console.log(err);
         }
 
@@ -118,6 +117,20 @@ async function addStatus(playerID, LV) {
         return false;
     });
 }
+
+
+async function performProjection(tableName, selectedOptions) {
+    return await withOracleDB(async (connection) => {
+            const result = await connection.execute(
+                `SELECT ${selectedOptions.join(', ')} FROM ${tableName}`
+            );
+            console.log(result);
+            return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
 
 async function updateNameDemotable(ID, newName) {
     return await withOracleDB(async (connection) => {
@@ -218,5 +231,6 @@ module.exports = {
     addGuild,
     addStatus,
     fetchInventory,
-    initiateInventory
+    initiateInventory,
+    performProjection
 };
