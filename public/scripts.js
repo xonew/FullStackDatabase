@@ -120,7 +120,7 @@ async function updateNameDemotable(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            playerID: playerID,
+            ID: playerID,
             newName: newNameValue
         })
     });
