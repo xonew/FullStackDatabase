@@ -111,7 +111,7 @@ async function insertDemotable(event) {
 async function updateNameDemotable(event) {
     event.preventDefault();
 
-    const oldNameValue = document.getElementById('updateOldName').value;
+    const playerID= document.getElementById('updateOldName').value;
     const newNameValue = document.getElementById('updateNewName').value;
 
     const response = await fetch('/update-name-demotable', {
@@ -120,7 +120,7 @@ async function updateNameDemotable(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            oldName: oldNameValue,
+            playerID: playerID,
             newName: newNameValue
         })
     });
