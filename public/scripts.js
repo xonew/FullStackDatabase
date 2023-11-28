@@ -136,6 +136,35 @@ async function updateNameDemotable(event) {
     }
 }
 
+// add Guild ID to a player in the player table.
+async function addGuildIDtoPlayer(event) {
+    event.preventDefault();
+
+    const playerID = document.getElementById('targetPlayerIDtoAddGuild').value;
+    const guildID = document.getElementById('targetGuildIDToBeAdded').value;
+
+    const response = await fetch('/add-guild', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            playerID: playerID,
+            guildID: guildID
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('addGuildIDtoPlayerMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Guild added successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error adding guild!";
+    }
+}
+
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
 async function countDemotable() {
@@ -153,19 +182,6 @@ async function countDemotable() {
         alert("Error in count demotable!");
     }
 }
-
-
-// ---------------------------------------------------------------
-// Initializes the webpage functionalities.
-// Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
-    checkDbConnection();
-    fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
-};
 
 // Delete a specific player in the demotable.
 async function deleteNamePlayertable(event) {
@@ -193,6 +209,20 @@ async function deleteNamePlayertable(event) {
         messageElement.textContent = "Error deleting name!";
     }
 }
+
+// ---------------------------------------------------------------
+// Initializes the webpage functionalities.
+// Add or remove event listeners based on the desired functionalities.
+window.onload = function() {
+    checkDbConnection();
+    fetchTableData();
+    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
+    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
+    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
+    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("deleteNamePlayertable").addEventListener("submit", deleteNamePlayertable);
+    document.getElementById("addGuildIDtoPlayer").addEventListener("submit", addGuildIDtoPlayer);
+};
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.

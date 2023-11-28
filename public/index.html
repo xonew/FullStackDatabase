@@ -84,12 +84,25 @@
     <h2>Delete Name in PlayerTable</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
     <form id="deleteNamePlayertable">
-        ID: <input type="text" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
+        ID: <input type="number" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
 
         <button type="submit"> Delete</button> <br>
     </form>
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="deleteNameResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Add Guild ID to a player</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="addGuildIDtoPlayer">
+        Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID" required> <br><br>
+        Guild ID: <input type="number" id="targetGuildIDToBeAdded" placeholder="Enter valid GuildID from 1 to 10" maxlength="20"> <br><br>
+
+        <button type="submit"> Add </button> <br>
+    </form>
+    <!-- A placeholder to display messages related to the update operation. -->
+    <div id="addGuildIDtoPlayerMsg"></div>
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
