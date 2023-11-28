@@ -107,10 +107,24 @@ async function updateNameDemotable(oldName, newName) {
 
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
+        const result = await connection.execute('SELECT Count(*) FROM PLAYER');
         return result.rows[0][0];
     }).catch(() => {
         return -1;
+    });
+}
+
+async function deletePlayer(id) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `DELETE FROM Player WHERE id = :id`,
+            [id],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
     });
 }
 
@@ -120,5 +134,6 @@ module.exports = {
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable
+    countDemotable,
+    deletePlayer
 };

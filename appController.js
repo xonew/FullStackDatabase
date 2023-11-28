@@ -64,5 +64,14 @@ router.get('/count-demotable', async (req, res) => {
     }
 });
 
+router.post("/delete-player", async (req, res) => {
+    const { id } = req.body;
+    const deleteResult = await appService.deletePlayer(id);
+    if (deleteResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
 
 module.exports = router;
