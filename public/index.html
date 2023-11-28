@@ -104,6 +104,19 @@
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="addGuildIDtoPlayerMsg"></div>
 
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Add Basic Status to a player (without inventories)</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="addStatusLVtoPlayer">
+        Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID" required> <br><br>
+        LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10" maxlength="20"> <br><br>
+
+        <button type="submit"> Add </button> <br>
+    </form>
+    <!-- A placeholder to display messages related to the update operation. -->
+    <div id="addStatusLVtoPlayerMsg"></div>
+
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>

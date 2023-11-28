@@ -165,6 +165,35 @@ async function addGuildIDtoPlayer(event) {
     }
 }
 
+// add StatusLV to a player in the player table.
+async function addStatusLVtoPlayer(event) {
+    event.preventDefault();
+
+    const playerID = document.getElementById('targetPlayerIDtoAddStatus').value;
+    const StatusLV = document.getElementById('targetStatusLVToBeAdded').value;
+
+    const response = await fetch('/add-guild', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            playerID: playerID,
+            LV: StatusLV
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('addStatusLVtoPlayerMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Status added successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error adding status!";
+    }
+}
+
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
 async function countDemotable() {
@@ -222,6 +251,7 @@ window.onload = function() {
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
     document.getElementById("deleteNamePlayertable").addEventListener("submit", deleteNamePlayertable);
     document.getElementById("addGuildIDtoPlayer").addEventListener("submit", addGuildIDtoPlayer);
+    document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
 };
 
 // General function to refresh the displayed table data. 
