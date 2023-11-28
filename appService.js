@@ -175,7 +175,7 @@ async function initiateInventory() {
                 HP_plus INT,
                 MP_plus INT,
                 ATK_plus INT
-            )
+            );
 
             INSERT INTO Inventory VALUES (1, 'Aquila Favonia', 'Equipment', 1000, 0, 0);
             INSERT INTO Inventory VALUES (2, 'Dull Blade', 'Equipment', 0, 0, 0);

@@ -265,6 +265,22 @@ async function fetchAndDisplayInventories() {
     });
 }
 
+// This function resets or initializes the demotable.
+// async function loadInventorytable() {
+//     const response = await fetch("/initiate-inventory", {
+//         method: 'POST'
+//     });
+//     const responseData = await response.json();
+
+//     if (responseData.success) {
+//         const messageElement = document.getElementById('loadResultMsg');
+//         messageElement.textContent = "Inventory loaded successfully!";
+//         fetchTableData();
+//     } else {
+//         alert("Error loading table!");
+//     }
+// }
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -285,4 +301,5 @@ window.onload = function() {
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
+    fetchAndDisplayInventories();
 }
