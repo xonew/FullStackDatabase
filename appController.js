@@ -49,6 +49,16 @@ router.post("/update-name-demotable", async (req, res) => {
     }
 });
 
+router.post("/add-guild", async (req, res) => {
+    const { playerID, guildID } = req.body;
+    const updateGuild = await appService.addGuild(playerID, guildID);
+    if (updateGuild) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {
