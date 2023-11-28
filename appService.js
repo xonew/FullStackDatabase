@@ -119,11 +119,11 @@ async function addStatus(playerID, LV) {
     });
 }
 
-async function updateNameDemotable(oldName, newName) {
+async function updateNameDemotable(ID, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE PLAYER SET name=:newName where name=:oldName`,
-            [newName, oldName],
+            `UPDATE PLAYER SET name=:newName where id=:ID`,
+            [newName, ID],
             { autoCommit: true }
         );
 
