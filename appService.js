@@ -53,6 +53,15 @@ async function fetchDemotableFromDb() {
     });
 }
 
+async function fetchInventory() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT * FROM INVENTORY');
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
@@ -165,5 +174,6 @@ module.exports = {
     countDemotable,
     deletePlayer,
     addGuild,
-    addStatus
+    addStatus,
+    fetchInventory
 };
