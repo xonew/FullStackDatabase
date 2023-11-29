@@ -36,26 +36,36 @@ async function checkDbConnection() {
     });
 }
 
-// Fetches data from the demotable and displays it.
-async function fetchAndDisplayUsers() {
-    const tableElement = document.getElementById('demotable');
+
+// demotable, inventorytable
+// Fetches data from the table and displays it.
+async function fetchAndDisplayTable(elementId) {
+    const tableElement = document.getElementById(elementId);
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/demotable', {
+    const response = await fetch('/' + elementId, {
         method: 'GET'
     });
 
     const responseData = await response.json();
     const demotableContent = responseData.data;
-
+    console.log(demotableContent);
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
 
-    demotableContent.forEach(user => {
+    // DemotableContent[0] has values, DemotableContent[1] has column names
+    demotableContent[0].forEach(tuple => {
         const row = tableBody.insertRow();
-        user.forEach((field, index) => {
+        Object.keys(tuple).forEach((key, index) => {
+        	const cell = row.insertCell(index);
+            cell.textContent = tuple[key];
+		});
+    });
+    demotableContent[0].forEach(tuple => {
+        const row = tableBody.insertRow();
+        tuple.forEach((field, index) => {
             const cell = row.insertCell(index);
             cell.textContent = field;
         });
@@ -239,31 +249,6 @@ async function deleteNamePlayertable(event) {
     }
 }
 
-// Fetches data from the demotable and displays it.
-async function fetchAndDisplayInventories() {
-    const tableElement = document.getElementById('inventorytable');
-    const tableBody = tableElement.querySelector('tbody');
-
-    const response = await fetch('/inventorytable', {
-        method: 'GET'
-    });
-
-    const responseData = await response.json();
-    const demotableContent = responseData.data;
-
-    // Always clear old, already fetched data before new fetching process.
-    if (tableBody) {
-        tableBody.innerHTML = '';
-    }
-
-    demotableContent.forEach(user => {
-        const row = tableBody.insertRow();
-        user.forEach((field, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = field;
-        });
-    });
-}
 
 // This function resets or initializes the demotable.
 // async function loadInventorytable() {
@@ -395,7 +380,7 @@ async function getProjectionTable(tableName, selectedOptions) {
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
-    fetchAndDisplayUsers();
-    fetchAndDisplayInventories();
+    fetchAndDisplayTable('demotable');
+    fetchAndDisplayTable('inventorytable');
     //displayProjectionTable();
 }

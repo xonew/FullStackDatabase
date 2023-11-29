@@ -64,9 +64,7 @@ async function initiateDemotable() {
                 guildID  INT,
                 PRIMARY KEY (id)
             )
-        `).then(() => {
-        return true;
-        });
+        `);
     }).catch(() => {
         return false;
     });
@@ -77,7 +75,7 @@ async function insertDemotable(id, name) {
         const result = connection.execute(
             'INSERT INTO Player (id, name) VALUES (?, ?)',
             [id, name]);
-
+            console.log(result);
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
@@ -89,7 +87,7 @@ async function addGuild(playerID, guildID) {
         const result = connection.execute(
             'UPDATE Player SET GuildID = ? where ID = ?',
             [guildID, playerID]);
-
+            console.log(result);
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
@@ -101,7 +99,7 @@ async function addStatus(playerID, LV) {
         const result = connection.execute(
             'UPDATE Player LV=? where PlayerID = ?',
             [LV, playerID]);
-
+            console.log(result);
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
@@ -137,6 +135,7 @@ async function updateNameDemotable(ID, newName) {
 async function countDemotable() {
     return await withDB((connection) => {
         const result = connection.query('SELECT Count(*) FROM Player');
+        console.log(result);
         return result[0][0];
     }).catch(() => {
         return -1;
