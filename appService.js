@@ -124,7 +124,7 @@ async function performProjection(tableName, selectedOptions) {
             const result = await connection.execute(
                 `SELECT ${selectedOptions.join(', ')} FROM ${tableName}`
             );
-            console.log(result);
+            console.log('projection:' + result);
             return result.rows;
     }).catch(() => {
         return false;

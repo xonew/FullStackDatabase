@@ -285,7 +285,7 @@ async function fetchAndDisplayInventories() {
 // Function to fill the dropdown lists
 function fillDropdownLists() {
     let tables = {
-      Player: ["ID", "Name", "LV", "GuildID"],
+        Player: ["ID", "Name", "LV", "GuildID"],
         Inventory: ["InventoryID", "Name", "Type"],
     };
     const tableDropdown = document.getElementById("tableDropdown");
@@ -317,8 +317,8 @@ function fillDropdownLists() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function() {
     checkDbConnection();
-    fetchTableData();
     fillDropdownLists();
+    fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
@@ -330,8 +330,7 @@ window.onload = function() {
 };
 
 async function displayProjectionTable() {
-    const tableName = document.getElementById("tableDropdown").value;
-  
+    const table = document.getElementById("tableDropdown").querySelector('tbody');
     const dropdown = document.getElementById("attributeDropdown");
     const selectedOptions = Array.from(dropdown.selectedOptions).map(
       (option) => option.value
@@ -349,7 +348,6 @@ async function displayProjectionTable() {
           const headerCell = headerRow.insertCell();
           headerCell.textContent = attribute;
         }
-  
         // Populate table values
         for (const rowValues of tableData) {
           const row = table.insertRow();
@@ -370,7 +368,6 @@ async function getProjectionTable(tableName, selectedOptions) {
     //const selectedOptions = Array.from(dropdown.selectedOptions).map(
     //  (option) => option.value
     //);
-  
     if (selectedOptions.length > 0) {
       try {
         const response = await fetch("/projection", {
