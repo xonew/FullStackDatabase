@@ -10,6 +10,9 @@
 -- DROP TABLE Quest;
 -- DROP TABLE QuestRecord;
 
+-- CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+-- GRANT ALL ON db.* TO 'username'@'%';
+
 CREATE TABLE Status (
     Lv INT PRIMARY KEY,
     HP INT,

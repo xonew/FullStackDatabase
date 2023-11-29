@@ -1,0 +1,21 @@
+{
+  "name": "304-proj",
+  "version": "1.0.0",
+  "description": "CPSC 304 Group Project (Node, Express, MySQL)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.students.cs.ubc.ca/CPSC304-2023W-T1/project_j5p6x_m9s0n_x0n3w.git"
+  },
+  "author": "xonew",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {}
+}

@@ -328,7 +328,7 @@ window.onload = function() {
     document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
 };
-
+/*
 async function displayProjectionTable() {
     const table = document.getElementById("tableDropdown").querySelector('tbody');
     const dropdown = document.getElementById("attributeDropdown");
@@ -363,11 +363,11 @@ async function displayProjectionTable() {
   }
   
 async function getProjectionTable(tableName, selectedOptions) {
-    //const tableName = document.getElementById("tableDropdown").value;
+    const tableName = document.getElementById("tableDropdown").value;
     const dropdown = document.getElementById("attributeDropdown");
-    //const selectedOptions = Array.from(dropdown.selectedOptions).map(
-    //  (option) => option.value
-    //);
+    const selectedOptions = Array.from(dropdown.selectedOptions).map(
+      (option) => option.value
+    );
     if (selectedOptions.length > 0) {
       try {
         const response = await fetch("/projection", {
@@ -391,11 +391,11 @@ async function getProjectionTable(tableName, selectedOptions) {
       }
     }
   }
-
+*/
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
     fetchAndDisplayInventories();
-    displayProjectionTable();
+    //displayProjectionTable();
 }
