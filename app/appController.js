@@ -135,5 +135,28 @@ router.post("/delete-player", async (req, res) => {
         res.status(500).json({ success: false });
     }
 });
+router.post("/agg-group-by", async (req, res) => {
+    console.log("aggGroupBy request")
+    const tableContent = await appService.simpleQuery(`
+    SELECT g.Lv, sum(p.Lv)
+    FROM Player p
+    inner Join Guild g on p.GuildID = g.ID
+    GRoup By g.Lv        
+    `);
+    res.json({ data: tableContent });
+});
 
+
+router.post("/agg-nested", async (req, res) => {
+    console.log("aggNested request")
+    const tableContent = await appService.simpleQuery(`
+    SELECT GuildID, COUNT(*), avg(Player.Lv)
+    FROM Player
+    INNER JOIN Guild ON Player.GuildID = Guild.ID
+    GROUP BY GuildID
+    having sum(Player.Lv) > (SELECT max(Player.Lv)
+    FROM Player);
+    `);
+    res.json({ data: tableContent });
+});
 module.exports = router;
