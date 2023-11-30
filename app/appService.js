@@ -1,14 +1,11 @@
 const mySQL = require('mysql2/promise');
-const loadEnvFile = require('./utils/envUtil');
-
-const envVariables = loadEnvFile('./.env');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
-    host: envVariables.HOST,
-    user: envVariables.USER,
-    password: envVariables.PASSWORD,
-    database: envVariables.DATABASE,
+    host: 'db',
+    user: 'username',
+    password: 'password',
+    database: 'db',
 };
 const connectionPool = mySQL.createPool(dbConfig);
 async function withDB(action) {
