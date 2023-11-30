@@ -103,12 +103,11 @@ async function addStatus(playerID, LV) {
 
 
 async function performProjection(tableName, selectedOptions) {
+    console.log("projecting: SELECT %s FROM %s", selectedOptions, tableName);
     return await withDB(async (connection) => {
-        const result = await connection.execute(
-            'SELECT ? FROM ?',
-            [selectedOptions.join(', '), tableName]);
-        console.log('projection');
-        return result;
+        return await connection.query(
+            'SELECT ?? FROM ??',
+            [selectedOptions, tableName]);
     }).catch(() => {
         return false;
     });

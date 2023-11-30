@@ -28,5 +28,5 @@ app.use('/', appController);
 // ----------------------------------------------------------
 // Starting the server
 app.listen(PORT, () => {
-    console.log(`Server running! Find the hostname in Docker.`);
+    console.log(`Server running! Go to http://localhost:${51000}.`);
 });

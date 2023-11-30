@@ -40,40 +40,47 @@ async function checkDbConnection() {
 // demotable, inventorytable
 // Fetches data from the table and displays it.
 async function fetchAndDisplayTable(elementId) {
-    const tableElement = document.getElementById(elementId);
-    const tableBody = tableElement.querySelector('tbody');
-
     const response = await fetch('/' + elementId, {
         method: 'GET'
     });
 
     const responseData = await response.json();
-    const demotableContent = responseData.data;
-    console.log(demotableContent);
+    const tableContent = responseData.data;
+    displayTable(elementId, tableContent)
+}
+
+// tableContent is from .json().data
+async function displayTable(elementId, tableContent) {
+    const tableElement = document.getElementById(elementId);
+    const tableBody = tableElement.querySelector('tbody');
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
     }
-
+    const header = tableElement.querySelector('thead')
+    if (header) {
+        header.innerHTML = '';
+    }
+    const headerRow = header.insertRow();
+    const [values, fields] = tableContent;
+    fields.forEach(tuple => {
+        headerRow.appendChild(document.createElement('th')).appendChild(document.createTextNode(tuple.name));
+          //const headerCell = headerRow.insertCell();
+          //headerCell.textContent = tuple.name;
+    });
     // DemotableContent[0] has values, DemotableContent[1] has column names
-    demotableContent[0].forEach(tuple => {
+    values.forEach(tuple => {
         const row = tableBody.insertRow();
         Object.keys(tuple).forEach((key, index) => {
         	const cell = row.insertCell(index);
             cell.textContent = tuple[key];
 		});
     });
-    demotableContent[0].forEach(tuple => {
-        const row = tableBody.insertRow();
-        tuple.forEach((field, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = field;
-        });
-    });
 }
 
 // This function resets or initializes the demotable.
 async function resetDemotable() {
+    console.log("resetting player table");
     const response = await fetch("/initiate-demotable", {
         method: 'POST'
     });
@@ -106,7 +113,7 @@ async function insertDemotable(event) {
         })
     });
 
-    const responseData = await response.json();
+    const responseData = await response.json().data;
     const messageElement = document.getElementById('insertResultMsg');
 
     if (responseData.success) {
@@ -313,46 +320,35 @@ window.onload = function() {
     document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
 };
-/*
+
+
 async function displayProjectionTable() {
-    const table = document.getElementById("tableDropdown").querySelector('tbody');
+    const tableDropdown = document.getElementById("tableDropdown");
+    const tableName = tableDropdown.options[tableDropdown.selectedIndex].value;
     const dropdown = document.getElementById("attributeDropdown");
     const selectedOptions = Array.from(dropdown.selectedOptions).map(
       (option) => option.value
     );
-    const rows = getProjectionTable();
   
     if (selectedOptions.length > 0) {
       try {
         const tableData = await getProjectionTable(tableName, selectedOptions);
-        const table = document.getElementById("projectionTable");
-  
-        table.innerHTML = "";
-        const headerRow = table.insertRow();
-        for (const attribute of selectedOptions) {
-          const headerCell = headerRow.insertCell();
-          headerCell.textContent = attribute;
-        }
-        // Populate table values
-        for (const rowValues of tableData) {
-          const row = table.insertRow();
-          for (const rowValue of rowValues) {
-            const cell = row.insertCell();
-            cell.textContent = rowValue;
-          }
-        }
+        displayTable("projectionTable", tableData)
+          
       } catch (error) {
         console.error("Error:", error.message);
       }
     }
-  }
+}
+
   
 async function getProjectionTable(tableName, selectedOptions) {
-    const tableName = document.getElementById("tableDropdown").value;
+    //const tableName = document.getElementById("tableDropdown").value;
     const dropdown = document.getElementById("attributeDropdown");
-    const selectedOptions = Array.from(dropdown.selectedOptions).map(
-      (option) => option.value
-    );
+    //const selectedOptions = Array.from(dropdown.selectedOptions).map(
+    //  (option) => option.value
+    //);
+    
     if (selectedOptions.length > 0) {
       try {
         const response = await fetch("/projection", {
@@ -365,18 +361,20 @@ async function getProjectionTable(tableName, selectedOptions) {
             attributes: selectedOptions,
           }),
         });
+        
         if (!response.ok) {
-          throw new Error(`Error retrieving Projection table data!`);
+          throw new Error(`Error retrieving Projection table data!`); 
         }
         const responseData = await response.json();
-  
-        return responseData;
+        const tableContent = responseData.data;
+        return tableContent;
       } catch (error) {
         console.error("Error:", error.message);
       }
     }
   }
-*/
+
+
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {

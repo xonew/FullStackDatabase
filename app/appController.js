@@ -26,7 +26,6 @@ router.put('/projection', async (req, res) => {
     const { table_name, attributes } = req.body;
     console.log("projection request: %s, %s", table_name, attributes)
     const tableContent = await appService.performProjection(table_name, attributes);
-
     res.json({ data: tableContent });
 });
 
@@ -107,12 +106,12 @@ router.get('/count-demotable', async (req, res) => {
     if (tableCount) {
         res.json({ 
             success: true,  
-            count: tableCount[0]['Count(*)']
+            count: tableCount[0][0]['Count(*)']
         });
     } else {
         res.status(500).json({ 
             success: false, 
-            count: tableCount[0]['Count(*)']
+            count: tableCount[0][0]['Count(*)']
         });
     }
 });

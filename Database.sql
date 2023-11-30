@@ -20,22 +20,22 @@ CREATE TABLE Status (
     ATK INT
 );
 
-CREATE TABLE Player (
-    ID          INT PRIMARY KEY,
-    Name        VARCHAR(20),
-    Lv    INT,
-    GuildID    INT,
-    FOREIGN KEY (Lv) REFERENCES Status(Lv)
-);
-
 CREATE TABLE Guild (
     ID INT PRIMARY KEY,
     LV INT,
     Name VARCHAR(50)
 );
 
-ALTER TABLE Player ADD CONSTRAINT GuildID
-    FOREIGN KEY (GuildID) REFERENCES Guild(ID);
+CREATE TABLE Player (
+    ID          INT PRIMARY KEY,
+    Name        VARCHAR(20),
+    Lv    INT,
+    GuildID    INT,
+    FOREIGN KEY (GuildID) REFERENCES Guild(ID) ON DELETE CASCADE,
+    FOREIGN KEY (Lv) REFERENCES Status(Lv) ON DELETE CASCADE,
+);
+
+    
 
 CREATE TABLE Inventory (
     InventoryID INT PRIMARY KEY,
