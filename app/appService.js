@@ -14,19 +14,15 @@ const dbConfig = {
 async function withDB(action) {
     let connection;
     try {
-        console.log('Attempting to connect.');
-        let db = await mySQL.createConnection(dbConfig);
-
-        return action(db);
+        connection = await mySQL.createConnection(dbConfig);
+        return action(connection);
 
     } catch (err) {
         console.log(err);
         throw err;
     } finally {
         if (connection) {
-            connection.end((err) => {
-                if (err) console.error(err);
-            });
+            await connection.end();
         }
     }
 }
@@ -46,15 +42,15 @@ async function testDBConnection() {
 }
 
 async function fetchDemotableFromDb() {
-    return await withDB((connection) => {
-        return connection.query('SELECT * from Inventory')
+    return await withDB(async (connection) => {
+        return await connection.query('SELECT * from Player')
     });
 };
 
 
 async function initiateDemotable() {
     return await withDB(async (connection) => {
-        connection.query(`DROP TABLE Player CASCADE CONSTRAINTS`, callbackErr)
+        connection.query(`DROP TABLE Player CASCADE CONSTRAINTS`)
 
         connection.query(`
             CREATE TABLE Player (
@@ -71,36 +67,35 @@ async function initiateDemotable() {
 }
 
 async function insertDemotable(id, name) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        await connection.execute(
             'INSERT INTO Player (id, name) VALUES (?, ?)',
-            [id, name]);
-            console.log(result);
-        return result.rowsAffected && result.rowsAffected > 0;
+            [id, name])[0];
+        return true;
     }).catch(() => {
         return false;
     });
 }
 
 async function addGuild(playerID, guildID) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        await connection.execute(
             'UPDATE Player SET GuildID = ? where ID = ?',
             [guildID, playerID]);
-            console.log(result);
-        return result.rowsAffected && result.rowsAffected > 0;
+        console.log(result);
+        return true;
     }).catch(() => {
         return false;
     });
 }
 
 async function addStatus(playerID, LV) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        const result = await connection.execute(
             'UPDATE Player LV=? where PlayerID = ?',
             [LV, playerID]);
-            console.log(result);
-        return result.rowsAffected && result.rowsAffected > 0;
+        console.log(result);
+        return true;
     }).catch(() => {
         return false;
     });
@@ -108,8 +103,8 @@ async function addStatus(playerID, LV) {
 
 
 async function performProjection(tableName, selectedOptions) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        const result = await connection.execute(
             'SELECT ? FROM ?',
             [selectedOptions.join(', '), tableName]);
         console.log('projection');
@@ -121,20 +116,20 @@ async function performProjection(tableName, selectedOptions) {
 
 
 async function updateNameDemotable(ID, newName) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        const result = await connection.execute(
             'UPDATE Player SET Name = ? where ID = ?',
             [newName, ID]);
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        return true;
     }).catch(() => {
         return false;
     });
 }
 
 async function countDemotable() {
-    return await withDB((connection) => {
-        const result = connection.query('SELECT Count(*) FROM Player');
+    return await withDB(async (connection) => {
+        const result = await connection.query('SELECT Count(*) FROM Player');
         console.log(result);
         return result[0][0];
     }).catch(() => {
@@ -143,13 +138,13 @@ async function countDemotable() {
 }
 
 async function deletePlayer(id) {
-    return await withDB((connection) => {
-        const result = connection.execute(
+    return await withDB(async (connection) => {
+        const result = await connection.execute(
             'DELETE FROM Player WHERE ID = ?',
             [id]
         );
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        return true;
     }).catch(() => {
         return false;
     });
@@ -157,18 +152,18 @@ async function deletePlayer(id) {
 
 //Initiate Inventory
 async function initiateInventory() {
-    return await withDB((connection) => {
+    return await withDB(async (connection) => {
         try {
-            connection.query('DROP TABLE Inventory')
+            await connection.query('DROP TABLE Inventory')
         } catch (err) {
             if (err) {
                 console.log('Table might not exist, proceeding to create...');
-                console.log(connection.query(`select 'drop table ', table_name, 'cascade constraints;' from user_tables`));
+                console.log(await connection.query(`select 'drop table ', table_name, 'cascade constraints;' from user_tables`));
                 console.log(err);
             }
         };
 
-        const result = connection.query(`
+        const result = await connection.query(`
             CREATE TABLE Inventory (
                 InventoryID INT PRIMARY KEY,
                 Name VARCHAR(50),
@@ -200,8 +195,8 @@ async function initiateInventory() {
 }
 
 async function fetchInventory() {
-    return await withDB((connection) => {
-        const result = connection.query('SELECT * FROM Inventory');
+    return await withDB(async (connection) => {
+        const result = await connection.query('SELECT * FROM Inventory');
         return result;
     }).catch(() => {
         return [];

@@ -4,14 +4,14 @@ services:
       context: ./app
     restart: unless-stopped
     ports:
-      - 3000
+      - '51000:3000'
     depends_on:
       - db
   db:
     image: mysql:latest
     restart: always 
     ports:
-      - 3306
+      - '5150:03306'
     expose:
       - 3306
       - 33060
