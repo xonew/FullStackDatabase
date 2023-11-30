@@ -223,8 +223,9 @@ async function countDemotable() {
 
     if (responseData.success) {
         const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        messageElement.textContent = `The number of players: ${tupleCount}`;
     } else {
+        console.log(responseData);
         alert("Error in count demotable!");
     }
 }

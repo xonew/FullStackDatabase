@@ -127,10 +127,11 @@ async function updateNameDemotable(ID, newName) {
 }
 
 async function countDemotable() {
+    console.log("counting players");
     return await withDB(async (connection) => {
         const result = await connection.query('SELECT Count(*) FROM Player');
         console.log(result);
-        return result[0][0];
+        return result;
     }).catch(() => {
         return -1;
     });
