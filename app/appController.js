@@ -62,7 +62,6 @@ router.post("/get-all", async (req, res) => {
     const tableNames = result[0].map(element => 
         element.Tables_in_db);
     const tableAttributes = await appService.getAllTableAttributes(tableNames);
-    console.log(tableAttributes);
     res.json({ tableAttributes: tableAttributes});
 });
 
@@ -80,7 +79,7 @@ router.post("/insert-demotable", async (req, res) => {
 router.post("/update-name-demotable", async (req, res) => {
     const { ID, newName } = req.body;
     const updateResult = await appService.updateNameDemotable(ID, newName);
-    console.log("update name request: %d, %s, %s", id, newName, updateResult);
+    console.log("update name request: %d, %s, %s", ID, newName, updateResult);
     if (updateResult) {
         res.json({ success: true });
     } else {

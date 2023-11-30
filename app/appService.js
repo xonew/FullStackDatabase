@@ -91,37 +91,39 @@ async function insertDemotable(id, name) {
     return await withDB(async (connection) => {
         await connection.execute(
             'INSERT INTO Player (id, name) VALUES (?, ?)',
-            [id, name])[0];
+            [id, name]);
         return true;
     }).catch(() => {
+        console.log(err);
         return false;
     });
 }
 
 async function addGuild(playerID, guildID) {
     return await withDB(async (connection) => {
-        await connection.execute(
+        const [result, nothing] = await connection.query(
             'UPDATE Player SET GuildID = ? where ID = ?',
             [guildID, playerID]);
         console.log(result);
-        return true;
-    }).catch(() => {
+        return result.affectedRows && result.affectedRows > 0;
+    }).catch((err) => {
+        console.log(err);
         return false;
     });
 }
 
 async function addStatus(playerID, LV) {
+    console.log("adding status: %d, %s", playerID, LV);
     return await withDB(async (connection) => {
-        const result = await connection.execute(
-            'UPDATE Player LV=? where PlayerID = ?',
+        const [result, nothing] = await connection.query(
+            'UPDATE Player SET LV = ? where ID = ?',
             [LV, playerID]);
         console.log(result);
-        return true;
+        return result.affectedRows && result.affectedRows > 0;
     }).catch(() => {
         return false;
     });
 }
-
 
 async function performProjection(tableName, selectedOptions) {
     console.log("projecting: SELECT %s FROM %s", selectedOptions, tableName);
@@ -141,7 +143,7 @@ async function updateNameDemotable(ID, newName) {
             'UPDATE Player SET Name = ? where ID = ?',
             [newName, ID]);
 
-        return true;
+        return result.affectedRows && result.affectedRows > 0;
     }).catch(() => {
         return false;
     });

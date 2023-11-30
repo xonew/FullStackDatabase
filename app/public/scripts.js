@@ -113,7 +113,7 @@ async function insertDemotable(event) {
         })
     });
 
-    const responseData = await response.json().data;
+    const responseData = await response.json();
     const messageElement = document.getElementById('insertResultMsg');
 
     if (responseData.success) {
