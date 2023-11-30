@@ -318,6 +318,7 @@ window.onload = function() {
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
     document.getElementById("aggNested").addEventListener("click", aggNested);
     document.getElementById("aggGroupBy").addEventListener("click", aggGroupBy);
+    document.getElementById("joinWhere").addEventListener("click", joinWhere);
 };
 
 async function getAllTableAttributes() {
@@ -342,6 +343,18 @@ async function aggGroupBy() {
         });
     const responseData = await response.json();
     displayTable('aggGroupByTable', responseData.data);
+}
+
+async function joinWhere() {
+    const targetID = document.getElementById('deleteTargetID').value;
+    const response = await fetch("/join-where", {
+        method: "POST",
+        body: JSON.stringify({
+            ID: targetID
+        })
+        });
+    const responseData = await response.json();
+    displayTable('joinWhereTable', responseData.data);
 }
 
 async function displayProjectionTable() {

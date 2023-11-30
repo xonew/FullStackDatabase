@@ -159,4 +159,13 @@ router.post("/agg-nested", async (req, res) => {
     `);
     res.json({ data: tableContent });
 });
+
+router.post("/agg-having", async (req, res) => {
+    console.log("aggHaving request")
+    const tableContent = await appService.simpleQuery(`
+    !!! To BE FINISHED 
+    `);
+    res.json({ data: tableContent });
+});
+
 module.exports = router;
