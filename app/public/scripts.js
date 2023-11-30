@@ -316,6 +316,8 @@ window.onload = function() {
     document.getElementById("addGuildIDtoPlayer").addEventListener("submit", addGuildIDtoPlayer);
     document.getElementById("addStatusLVtoPlayer").addEventListener("submit", addStatusLVtoPlayer);
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
+    document.getElementById("aggNested").addEventListener("click", aggNested);
+    document.getElementById("aggGroupBy").addEventListener("click", aggGroupBy);
 };
 
 async function getAllTableAttributes() {
@@ -324,6 +326,22 @@ async function getAllTableAttributes() {
         });
     const responseData = await response.json();
     return responseData.tableAttributes;
+}
+
+async function aggNested() {
+    const response = await fetch("/agg-nested", {
+        method: "POST",
+        });
+    const responseData = await response.json();
+    displayTable('aggNestedTable', responseData.data);
+}
+
+async function aggGroupBy() {
+    const response = await fetch("/agg-group-by", {
+        method: "POST",
+        });
+    const responseData = await response.json();
+    displayTable('aggGroupByTable', responseData.data);
 }
 
 async function displayProjectionTable() {

@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS Inventory;
 DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Quest;
-DROP TABLE IF EXISTS QuestRecord;
 -- TRUNCATE Guild;
 -- TRUNCATE Status;
 -- TRUNCATE Player;
@@ -27,6 +26,7 @@ CREATE TABLE Status (
     ATK INT
 );
 
+-- add constraint that guilds must have at least one player
 CREATE TABLE Guild (
     ID INT PRIMARY KEY,
     LV INT,
@@ -43,7 +43,7 @@ CREATE TABLE Player (
 );
 
     
-
+-- this should not have stats and also shouldnt have a type
 CREATE TABLE Inventory (
     InventoryID INT PRIMARY KEY,
     Name VARCHAR(50),
@@ -63,12 +63,13 @@ CREATE TABLE InventoryRecord (
 );
 
 
-
+-- this should have stats
 CREATE TABLE Equipment (
     EquipmentID INT PRIMARY KEY,
     FOREIGN KEY (EquipmentID) REFERENCES Inventory(InventoryID)
 );
 
+-- this should have a quantity
 CREATE TABLE Item (
     ItemID INT not null REFERENCES Inventory(InventoryID),
     PRIMARY KEY(ItemID)
@@ -79,13 +80,13 @@ CREATE TABLE Quest (
     Name VARCHAR(50)
 );
 
+-- this should have a number of times cleared column
 CREATE TABLE QuestRecord (
     QuestID INT,
     PlayerID INT,
     FOREIGN KEY (QuestID) REFERENCES Quest(ID) ON DELETE CASCADE,
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
-
 
 
 
@@ -146,7 +147,7 @@ INSERT INTO Quest VALUES (10, 'Enigma of the Astral Isles');
 
 
 INSERT INTO Guild VALUES (1, 10, 'Eternal Eclipse Syndicate');
-INSERT INTO Guild VALUES (2, 20, 'Whispering Shadows Alliance');
+INSERT INTO Guild VALUES (2, 10, 'Whispering Shadows Alliance');
 INSERT INTO Guild VALUES (3, 15, 'Sapphire Serpent Society');
 INSERT INTO Guild VALUES (4, 25, 'Celestial Vanguard');
 INSERT INTO Guild VALUES (5, 18, 'Golden Griffin Brotherhood');

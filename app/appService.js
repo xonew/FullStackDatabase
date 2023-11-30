@@ -235,31 +235,7 @@ async function simpleQuery(query) {
         return false;
     });
 }
-//aggGroupBy
-`
-SELECT g.Lv, sum(p.Lv)
-FROM Player p
-inner Join Guild g on p.GuildID = g.ID
-GRoup By g.Lv        
-`
-//aggHaving
-`
-SELECT GuildID, COUNT(*), avg(Player.Lv)
-FROM Player
-INNER JOIN Guild ON Player.GuildID = Guild.ID
-GROUP BY GuildID
-having sum(Player.Lv) > (SELECT max(Player.Lv)
-FROM Player);
-`
-//aggNested
-`
-SELECT GuildID, COUNT(*), avg(Player.Lv)
-FROM Player
-INNER JOIN Guild ON Player.GuildID = Guild.ID
-GROUP BY GuildID
-having sum(Player.Lv) > (SELECT max(Player.Lv)
-FROM Player);
-`
+
 module.exports = {
     testDBConnection,
     fetchDemotableFromDb,
@@ -274,5 +250,6 @@ module.exports = {
     initiateInventory,
     performProjection,
     getAllTableNames,
-    getAllTableAttributes
+    getAllTableAttributes,
+    simpleQuery
 };
