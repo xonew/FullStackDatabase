@@ -19,7 +19,7 @@ router.get('/check-db-connection', async (req, res) => {
 router.get('/demotable', async (req, res) => {
     const tableContent = await appService.fetchDemotableFromDb();
     console.log("fetch player request")
-    res.json({data: tableContent});
+    res.json({ data: tableContent });
 });
 
 router.put('/projection', async (req, res) => {
@@ -32,37 +32,18 @@ router.put('/projection', async (req, res) => {
 router.get('/inventorytable', async (req, res) => {
     const tableContent = await appService.fetchInventory();
     console.log("fetch inventory request")
-    res.json({data: tableContent});
+    res.json({ data: tableContent });
 });
 
 
-router.post("/initiate-demotable", async (req, res) => {
-    const initiateResult = await appService.initiateDemotable();
-    console.log("initiate player request", initiateResult)
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/initiate-inventory", async (req, res) => {
-    const initiateResult = await appService.initiateInventory();
-    console.log("initiate inventory request", initiateResult);
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
 
 //later make this also get the collumns of each table
 router.post("/get-all", async (req, res) => {
     const result = await appService.getAllTableNames();
-    const tableNames = result[0].map(element => 
+    const tableNames = result[0].map(element =>
         element.Tables_in_db);
     const tableAttributes = await appService.getAllTableAttributes(tableNames);
-    res.json({ tableAttributes: tableAttributes});
+    res.json({ tableAttributes: tableAttributes });
 });
 
 router.post("/insert-demotable", async (req, res) => {
@@ -113,13 +94,13 @@ router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     console.log("table count: " + tableCount);
     if (tableCount) {
-        res.json({ 
-            success: true,  
+        res.json({
+            success: true,
             count: tableCount[0][0]['Count(*)']
         });
     } else {
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             count: tableCount[0][0]['Count(*)']
         });
     }
@@ -135,28 +116,47 @@ router.post("/delete-player", async (req, res) => {
         res.status(500).json({ success: false });
     }
 });
-router.post("/agg-group-by", async (req, res) => {
-    console.log("aggGroupBy request")
-    const tableContent = await appService.simpleQuery(`
-    SELECT g.Lv, sum(p.Lv)
-    FROM Player p
-    inner Join Guild g on p.GuildID = g.ID
-    GRoup By g.Lv        
-    `);
-    res.json({ data: tableContent });
-});
 
+const queries = {
+    'aggGroupByTable': `
+        SELECT g.Lv, sum(p.Lv)
+        FROM Player p
+        inner Join Guild g on p.GuildID = g.ID
+        GRoup By g.Lv        
+        `,
+    'aggNestedTable': `
+        SELECT GuildID, COUNT(*), avg(Player.Lv)
+        FROM Player
+        INNER JOIN Guild ON Player.GuildID = Guild.ID
+        GROUP BY GuildID
+        having sum(Player.Lv) > (SELECT max(Player.Lv)
+        FROM Player);
+        `,
 
-router.post("/agg-nested", async (req, res) => {
-    console.log("aggNested request")
-    const tableContent = await appService.simpleQuery(`
-    SELECT GuildID, COUNT(*), avg(Player.Lv)
-    FROM Player
-    INNER JOIN Guild ON Player.GuildID = Guild.ID
-    GROUP BY GuildID
-    having sum(Player.Lv) > (SELECT max(Player.Lv)
-    FROM Player);
-    `);
+    'divisionTable': `
+    SELECT p.ID, p.Name
+    FROM Player AS p
+    WHERE NOT EXISTS (
+        SELECT q.ID
+        FROM Quest AS q
+        WHERE NOT EXISTS (
+            SELECT qr.QuestID
+            FROM QuestRecord AS qr
+            WHERE qr.PlayerID = p.ID AND qr.QuestID = q.ID
+        )
+    );
+    `,
+    'aggHavingTable': `SELECT ir.PlayerID, p.Name
+    FROM InventoryRecord AS ir
+    JOIN Player AS p ON ir.PlayerID = p.ID
+    GROUP BY ir.PlayerID, p.Name
+    HAVING COUNT(DISTINCT ir.InventoryID) > 5;`
+
+}
+
+router.post("/simple-table-query", async (req, res) => {
+    const { table } = req.body;
+    const tableContent = await appService.simpleTableQuery(queries[table]);
     res.json({ data: tableContent });
 });
 
@@ -167,5 +167,8 @@ router.post("/agg-having", async (req, res) => {
     `);
     res.json({ data: tableContent });
 });
+
+
+
 
 module.exports = router;
