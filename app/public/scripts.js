@@ -28,12 +28,12 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
-    });
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        });
 }
 
 
@@ -65,16 +65,16 @@ async function displayTable(elementId, tableContent) {
     const [values, fields] = tableContent;
     fields.forEach(tuple => {
         headerRow.appendChild(document.createElement('th')).appendChild(document.createTextNode(tuple.name));
-          //const headerCell = headerRow.insertCell();
-          //headerCell.textContent = tuple.name;
+        //const headerCell = headerRow.insertCell();
+        //headerCell.textContent = tuple.name;
     });
     // DemotableContent[0] has values, DemotableContent[1] has column names
     values.forEach(tuple => {
         const row = tableBody.insertRow();
         Object.keys(tuple).forEach((key, index) => {
-        	const cell = row.insertCell(index);
+            const cell = row.insertCell(index);
             cell.textContent = tuple[key];
-		});
+        });
     });
 }
 
@@ -128,7 +128,7 @@ async function insertDemotable(event) {
 async function updateNameDemotable(event) {
     event.preventDefault();
 
-    const playerID= document.getElementById('updateOldName').value;
+    const playerID = document.getElementById('updateOldName').value;
     const newNameValue = document.getElementById('updateNewName').value;
 
     const response = await fetch('/update-name-demotable', {
@@ -281,30 +281,123 @@ async function fillDropdownLists() {
     const tableDropdown = document.getElementById("tableDropdown");
     const attributeDropdown = document.getElementById("attributeDropdown");
     for (const table in tables) {
-      const option = document.createElement("option");
-      option.value = table;
-      option.text = table;
-      tableDropdown.add(option);
-    }
-  
-    tableDropdown.addEventListener("change", () => {
-      const selectedTable = tableDropdown.value;
-      const attributes = tables[selectedTable] || [];
-      attributeDropdown.innerHTML = "";
-      for (const attribute of attributes) {
         const option = document.createElement("option");
-        option.value = attribute;
-        option.text = attribute;
-        attributeDropdown.add(option);
-      }
-      attributeDropdown.multiple = true;
+        option.value = table;
+        option.text = table;
+        tableDropdown.add(option);
+    }
+
+    tableDropdown.addEventListener("change", () => {
+        const selectedTable = tableDropdown.value;
+        const attributes = tables[selectedTable] || [];
+        attributeDropdown.innerHTML = "";
+        for (const attribute of attributes) {
+            const option = document.createElement("option");
+            option.value = attribute;
+            option.text = attribute;
+            attributeDropdown.add(option);
+        }
+        attributeDropdown.multiple = true;
     });
-  }
+}
+
+
+async function getAllTableAttributes() {
+    const response = await fetch("/get-all", {
+        method: "POST",
+    });
+    const responseData = await response.json();
+    return responseData.tableAttributes;
+}
+
+async function simpleTableQuery(table_name) {
+    const response = await fetch('/simple-table-query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            table: table_name,
+        })
+    });
+    const responseData = await response.json();
+    if (!responseData) {
+        throw new Error(`Error retrieving ${table_name} table data!`);
+    }
+    displayTable(table_name, responseData.data);
+}
+
+async function aggGroupBy() {
+    simpleTableQuery('aggGroupByTable');
+}
+
+async function aggNested() {
+    simpleTableQuery('aggNestedTable')
+}
+
+async function division() {
+    simpleTableQuery('divisionTable')
+}
+
+
+
+async function displayProjectionTable() {
+    const tableDropdown = document.getElementById("tableDropdown");
+    const tableName = tableDropdown.options[tableDropdown.selectedIndex].value;
+    const dropdown = document.getElementById("attributeDropdown");
+    const selectedOptions = Array.from(dropdown.selectedOptions).map(
+        (option) => option.value
+    );
+
+    if (selectedOptions.length > 0) {
+        try {
+            const tableData = await getProjectionTable(tableName, selectedOptions);
+            displayTable("projectionTable", tableData)
+
+        } catch (error) {
+            console.error("Error:", error.message);
+        }
+    }
+}
+
+
+async function getProjectionTable(tableName, selectedOptions) {
+    //const tableName = document.getElementById("tableDropdown").value;
+    const dropdown = document.getElementById("attributeDropdown");
+    //const selectedOptions = Array.from(dropdown.selectedOptions).map(
+    //  (option) => option.value
+    //);
+
+    if (selectedOptions.length > 0) {
+        try {
+            const response = await fetch("/projection", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    table_name: tableName,
+                    attributes: selectedOptions,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error retrieving Projection table data!`);
+            }
+            const responseData = await response.json();
+            const tableContent = responseData.data;
+            return tableContent;
+        } catch (error) {
+            console.error("Error:", error.message);
+        }
+    }
+}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     fillDropdownLists();
     fetchTableData();
@@ -318,83 +411,9 @@ window.onload = function() {
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
     document.getElementById("aggNested").addEventListener("click", aggNested);
     document.getElementById("aggGroupBy").addEventListener("click", aggGroupBy);
+    document.getElementById("division").addEventListener("click", division);
 };
 
-async function getAllTableAttributes() {
-    const response = await fetch("/get-all", {
-        method: "POST",
-        });
-    const responseData = await response.json();
-    return responseData.tableAttributes;
-}
-
-async function aggNested() {
-    const response = await fetch("/agg-nested", {
-        method: "POST",
-        });
-    const responseData = await response.json();
-    displayTable('aggNestedTable', responseData.data);
-}
-
-async function aggGroupBy() {
-    const response = await fetch("/agg-group-by", {
-        method: "POST",
-        });
-    const responseData = await response.json();
-    displayTable('aggGroupByTable', responseData.data);
-}
-
-async function displayProjectionTable() {
-    const tableDropdown = document.getElementById("tableDropdown");
-    const tableName = tableDropdown.options[tableDropdown.selectedIndex].value;
-    const dropdown = document.getElementById("attributeDropdown");
-    const selectedOptions = Array.from(dropdown.selectedOptions).map(
-      (option) => option.value
-    );
-  
-    if (selectedOptions.length > 0) {
-      try {
-        const tableData = await getProjectionTable(tableName, selectedOptions);
-        displayTable("projectionTable", tableData)
-          
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
-    }
-}
-
-  
-async function getProjectionTable(tableName, selectedOptions) {
-    //const tableName = document.getElementById("tableDropdown").value;
-    const dropdown = document.getElementById("attributeDropdown");
-    //const selectedOptions = Array.from(dropdown.selectedOptions).map(
-    //  (option) => option.value
-    //);
-    
-    if (selectedOptions.length > 0) {
-      try {
-        const response = await fetch("/projection", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            table_name: tableName,
-            attributes: selectedOptions,
-          }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Error retrieving Projection table data!`); 
-        }
-        const responseData = await response.json();
-        const tableContent = responseData.data;
-        return tableContent;
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
-    }
-  }
 
 
 // General function to refresh the displayed table data. 
@@ -402,5 +421,5 @@ async function getProjectionTable(tableName, selectedOptions) {
 function fetchTableData() {
     fetchAndDisplayTable('demotable');
     fetchAndDisplayTable('inventorytable');
-    //displayProjectionTable();
+    displayProjectionTable();
 }

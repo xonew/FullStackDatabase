@@ -224,7 +224,7 @@ async function fetchInventory() {
 }
 
 // function that queries an sql statement and returns the result
-async function simpleQuery(query) {
+async function simpleTableQuery(query) {
     return await withDB(async (connection) => {
         const result = await connection.query(query);
         return result;
@@ -248,5 +248,5 @@ module.exports = {
     performProjection,
     getAllTableNames,
     getAllTableAttributes,
-    simpleQuery
+    simpleTableQuery
 };
