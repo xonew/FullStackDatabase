@@ -89,11 +89,11 @@ async function initiateDemotable() {
 
 async function insertDemotable(id, name) {
     return await withDB(async (connection) => {
-        await connection.execute(
+        const [result, nothing] = await connection.execute(
             'INSERT INTO Player (id, name) VALUES (?, ?)',
             [id, name]);
-        return true;
-    }).catch(() => {
+        return result.affectedRows && result.affectedRows > 0;
+    }).catch((err) => {
         console.log(err);
         return false;
     });
@@ -139,7 +139,7 @@ async function performProjection(tableName, selectedOptions) {
 
 async function updateNameDemotable(ID, newName) {
     return await withDB(async (connection) => {
-        const result = await connection.execute(
+        const [result, nothing] = await connection.execute(
             'UPDATE Player SET Name = ? where ID = ?',
             [newName, ID]);
 
@@ -162,12 +162,12 @@ async function countDemotable() {
 
 async function deletePlayer(id) {
     return await withDB(async (connection) => {
-        const result = await connection.execute(
+        const [result, nothing] = await connection.execute(
             'DELETE FROM Player WHERE ID = ?',
             [id]
         );
 
-        return true;
+        return result.affectedRows && result.affectedRows > 0;
     }).catch(() => {
         return false;
     });
