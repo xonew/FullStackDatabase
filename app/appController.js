@@ -56,6 +56,16 @@ router.post("/initiate-inventory", async (req, res) => {
     }
 });
 
+//later make this also get the collumns of each table
+router.post("/get-all", async (req, res) => {
+    const result = await appService.getAllTableNames();
+    const tableNames = result[0].map(element => 
+        element.Tables_in_db);
+    const tableAttributes = await appService.getAllTableAttributes(tableNames);
+    console.log(tableAttributes);
+    res.json({ tableAttributes: tableAttributes});
+});
+
 router.post("/insert-demotable", async (req, res) => {
     const { id, name } = req.body;
     const insertResult = await appService.insertDemotable(id, name);

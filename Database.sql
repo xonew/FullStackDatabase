@@ -1,16 +1,23 @@
--- DROP TABLE Guild;
--- ALTER TABLE Player DROP CONSTRAINT StatusID;
--- ALTER TABLE Player DROP CONSTRAINT GuildID;
--- DROP TABLE Player CASCADE CONSTRAINTS;
--- DROP TABLE Status;
--- DROP TABLE InventoryRecord;
--- DROP TABLE Inventory;
--- DROP TABLE Equipment;
--- DROP TABLE Item;
--- DROP TABLE Quest;
--- DROP TABLE QuestRecord;
-
--- CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+SET FOREIGN_KEY_CHECKS = 0; 
+DROP TABLE IF EXISTS Guild;
+DROP TABLE IF EXISTS Status;
+DROP TABLE IF EXISTS Player;
+DROP TABLE IF EXISTS InventoryRecord;
+DROP TABLE IF EXISTS Inventory;
+DROP TABLE IF EXISTS Equipment;
+DROP TABLE IF EXISTS Item;
+DROP TABLE IF EXISTS Quest;
+DROP TABLE IF EXISTS QuestRecord;
+-- TRUNCATE Guild;
+-- TRUNCATE Status;
+-- TRUNCATE Player;
+-- TRUNCATE InventoryRecord;
+-- TRUNCATE Inventory;
+-- TRUNCATE Equipment;
+-- TRUNCATE Item;
+-- TRUNCATE Quest;
+-- TRUNCATE QuestRecord;
+SET FOREIGN_KEY_CHECKS = 1; 
 -- GRANT ALL ON db.* TO 'username'@'%';
 
 CREATE TABLE Status (
@@ -32,7 +39,7 @@ CREATE TABLE Player (
     Lv    INT,
     GuildID    INT,
     FOREIGN KEY (GuildID) REFERENCES Guild(ID) ON DELETE CASCADE,
-    FOREIGN KEY (Lv) REFERENCES Status(Lv) ON DELETE CASCADE,
+    FOREIGN KEY (Lv) REFERENCES Status(Lv) ON DELETE CASCADE
 );
 
     
@@ -49,6 +56,8 @@ CREATE TABLE Inventory (
 CREATE TABLE InventoryRecord (
     InventoryID INT,
     PlayerID INT,
+    Quantity INT,
+    PRIMARY KEY (InventoryID, PlayerID),
     FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON DELETE CASCADE,
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
@@ -56,8 +65,7 @@ CREATE TABLE InventoryRecord (
 
 
 CREATE TABLE Equipment (
-    EquipmentID INT NOT NULL,
-    PRIMARY KEY (EquipmentID),
+    EquipmentID INT PRIMARY KEY,
     FOREIGN KEY (EquipmentID) REFERENCES Inventory(InventoryID)
 );
 
@@ -74,7 +82,7 @@ CREATE TABLE Quest (
 CREATE TABLE QuestRecord (
     QuestID INT,
     PlayerID INT,
-    FOREIGN KEY (QuestID) REFERENCES Quest(ID),
+    FOREIGN KEY (QuestID) REFERENCES Quest(ID) ON DELETE CASCADE,
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
 
@@ -160,3 +168,14 @@ INSERT INTO Status VALUES (8, 45, 45, 45);
 INSERT INTO Status VALUES (9, 50, 50, 50);
 INSERT INTO Status VALUES (10, 55, 55, 55);
 
+INSERT INTO Player (ID, Name, Lv, GuildID) VALUES (1, 'DragonSlayer01', 1, 1);
+INSERT INTO Player (ID, Name, Lv, GuildID) VALUES (2, 'PixelKnight', 2, 1);
+INSERT INTO Player (ID, Name, Lv, GuildID) VALUES (3, 'StealthArcher', 3, 2);
+INSERT INTO Player (ID, Name, Lv, GuildID) VALUES (4, 'ArcaneWizard', 4, 2);
+INSERT INTO Player (ID, Name, Lv, GuildID) VALUES (5, '727', 5, 3);
+
+INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (1, 1, 10);
+INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (2, 2, 15);
+INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (3, 3, 20);
+INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (4, 4, 25);
+INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (5, 5, 30);

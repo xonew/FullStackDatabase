@@ -276,14 +276,10 @@ async function deleteNamePlayertable(event) {
 
 
 // Function to fill the dropdown lists
-function fillDropdownLists() {
-    let tables = {
-        Player: ["ID", "Name", "LV", "GuildID"],
-        Inventory: ["InventoryID", "Name", "Type"],
-    };
+async function fillDropdownLists() {
+    let tables = await getAllTableAttributes();
     const tableDropdown = document.getElementById("tableDropdown");
     const attributeDropdown = document.getElementById("attributeDropdown");
-  
     for (const table in tables) {
       const option = document.createElement("option");
       option.value = table;
@@ -322,6 +318,13 @@ window.onload = function() {
     document.getElementById("displayProjectionTable").addEventListener("click", displayProjectionTable);
 };
 
+async function getAllTableAttributes() {
+    const response = await fetch("/get-all", {
+        method: "POST",
+        });
+    const responseData = await response.json();
+    return responseData.tableAttributes;
+}
 
 async function displayProjectionTable() {
     const tableDropdown = document.getElementById("tableDropdown");

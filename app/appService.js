@@ -10,11 +10,10 @@ const dbConfig = {
     password: envVariables.PASSWORD,
     database: envVariables.DATABASE,
 };
-
+const connectionPool = mySQL.createPool(dbConfig);
 async function withDB(action) {
-    let connection;
     try {
-        connection = await mySQL.createConnection(dbConfig);
+        connection = await connectionPool.getConnection();
         return action(connection);
 
     } catch (err) {
@@ -22,7 +21,7 @@ async function withDB(action) {
         throw err;
     } finally {
         if (connection) {
-            await connection.end();
+            await connection.release();
         }
     }
 }
@@ -32,6 +31,28 @@ async function withDB(action) {
 // ----------------------------------------------------------
 // Core functions for database operations
 // Modify these functions, especially the SQL queries, based on your project's requirements and design.
+async function getAllTableNames() {
+    return await withDB(async (connection) => {
+        return await connection.query(`SHOW TABLES`);
+    }).catch(() => {
+        return false;
+    });
+}
+
+//Gets all the attributes of all tables given, returns an object with the table name as the key and the attributes as the value
+async function getAllTableAttributes(tableNames) {
+    let tableAttributes = {};
+    for (let name of tableNames) {
+        const value = await withDB(async (connection) => {
+            return await connection.query(`SHOW COLUMNS FROM ??`, [name]);
+        }).catch(() => {
+            return false;
+        });
+        tableAttributes[name] = value[0].map(element => element.Field);
+    }
+    return tableAttributes;
+}
+
 async function testDBConnection() {
     return await withDB((connection) => {
         return true;
@@ -215,5 +236,7 @@ module.exports = {
     addStatus,
     fetchInventory,
     initiateInventory,
-    performProjection
+    performProjection,
+    getAllTableNames,
+    getAllTableAttributes
 };
