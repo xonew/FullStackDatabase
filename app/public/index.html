@@ -191,7 +191,7 @@
     <select id="selectTableDropdown"><option> -- </option> </select>
     <div id="whereContainer"> </div>
     <button id="displaySelectTable">Display!</button> <br />
-    <table id="projectionTable" border="1">
+    <table id="selectTable" border="1">
         <thead>
         </thead>
         <tbody>
@@ -202,11 +202,11 @@
     <br />
     <hr />
     <br />
-    <!-- Show 'joinWhereTable'. -->
+<!-- Show 'joinWhereTable'. -->
     <h2>Find the names of all players who have a specific item in their inventory</h2>
     <form id="joinWhere">
-        ID: <input type="text" id="insertId" placeholder="Enter Inventory ID" required> <br><br>
-        <button type="submit"> Search </button> <br>
+        ID: <input type="text" id="joinId" placeholder="Enter InventoryObject ID" required> <br><br>
+        <button id = "joinWhere" type="submit"> Search </button> <br>
     </form>
     <table id="joinWhereTable" border="1">
         <thead>

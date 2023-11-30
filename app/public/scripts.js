@@ -345,16 +345,21 @@ async function aggHaving() {
 
 
 
-async function joinWhere() {
-    const targetID = document.getElementById('deleteTargetID').value;
+async function joinWhere(event) {
+    event.preventDefault();
+    const targetID = document.getElementById('joinId').value;
     const response = await fetch("/join-where", {
         method: "POST",
         body: JSON.stringify({
             ID: targetID
         })
-        });
-    const responseData = await response.json();
-    displayTable('joinWhereTable', responseData.data);
+    });
+    try {
+        const responseData = await response.json();
+        displayTable('joinWhereTable', responseData.data);
+    } catch (error) {
+    console.error("Error:", error.message);
+}
 }
 
 async function displayProjectionTable() {
@@ -413,26 +418,25 @@ async function getProjectionTable(tableName, selectedOptions) {
 //function that creates three fields: two dropdowns and a text field
 function addSelectFields() {
     // Get the element where the inputs will be added to
-    var container = document.getElementById("container");
+    const container = document.getElementById("whereContainer");
     // Remove every children it had before
     //while (container.hasChildNodes()) {
     //    container.removeChild(container.lastChild);
     //}
-    for (i=0;i<number;i++){
-        // Append a node with a random text
-        container.appendChild(document.createTextNode("Member " + (i+1)));
-        // Create an <input> element, set its type and name attributes
-        var input = document.createElement("input");
-        input.type = "text";
-        input.name = "member" + i;
-        container.appendChild(input);
-        // Append a line break 
-        container.appendChild(document.createElement("br"));
-    }
+    // Append a node with a random text
+    container.appendChild(document.createTextNode("Member " + (i + 1)));
+    const childContainer = document.createElement("div");
+    // Create an <input> element, set its type and name attributes
+    var input = document.createElement("clauseContainer");
+    input.type = "text";
+    input.name = "member" + i;
+    container.appendChild(input);
+    // Append a line break 
+    container.appendChild(document.createElement("br"));
 }
-/*async function fillDropdownLists() {
+async function fillSelectDropdownLists() {
     const tables = await getAllTableAttributes();
-    const tableDropdown = document.getElementById("tableDropdown");
+    const tableDropdown = document.getElementById("selectTableDropdown");
     const attributeDropdown = document.getElementById("attributeDropdown");
     for (const table in tables) {
         const option = document.createElement("option");
@@ -453,7 +457,7 @@ function addSelectFields() {
         }
         attributeDropdown.multiple = true;
     });
-}*/
+}
 
 
 
@@ -464,7 +468,6 @@ window.onload = function () {
     checkDbConnection();
     fillDropdownLists();
     fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
@@ -476,6 +479,7 @@ window.onload = function () {
     document.getElementById("aggGroupBy").addEventListener("click", aggGroupBy);
     document.getElementById("division").addEventListener("click", division);
     document.getElementById("aggHaving").addEventListener("click", aggHaving);
+    document.getElementById("joinWhere").addEventListener("submit", joinWhere);
 };
 
 

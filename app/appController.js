@@ -160,11 +160,10 @@ router.post("/simple-table-query", async (req, res) => {
     res.json({ data: tableContent });
 });
 
-router.post("/agg-having", async (req, res) => {
-    console.log("aggHaving request")
-    const tableContent = await appService.simpleQuery(`
-    !!! To BE FINISHED 
-    `);
+router.post("/join-where", async (req, res) => {
+    console.log("aggWhere request")
+    const { id } = req.body;
+    const tableContent = await appService.joinWhere(id);
     res.json({ data: tableContent });
 });
 

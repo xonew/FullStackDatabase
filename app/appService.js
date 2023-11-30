@@ -156,7 +156,7 @@ async function deletePlayer(id) {
 
 async function fetchInventory() {
     return await withDB(async (connection) => {
-        const result = await connection.query('SELECT * FROM Inventory');
+        const result = await connection.query('SELECT * FROM InventoryObject');
         return result;
     }).catch(() => {
         return false;
@@ -167,6 +167,20 @@ async function fetchInventory() {
 async function simpleTableQuery(query) {
     return await withDB(async (connection) => {
         const result = await connection.query(query);
+        return result;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function joinWhere(id) {
+    console.log("joining where id = ", id);
+    return await withDB(async (connection) => {
+        const result = await connection.query(`
+            SELECT Player.Name FROM Player 
+            INNER JOIN InventoryRecord ON Player.ID = InventoryRecord.PlayerID
+            WHERE InventoryRecord.InventoryID = 1;`,
+            [id]);
         return result;
     }).catch(() => {
         return false;
@@ -186,5 +200,6 @@ module.exports = {
     performProjection,
     getAllTableNames,
     getAllTableAttributes,
-    simpleTableQuery
+    simpleTableQuery,
+    joinWhere
 };

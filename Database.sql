@@ -2,11 +2,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Guild;
 DROP TABLE IF EXISTS Status;
 DROP TABLE IF EXISTS Player;
+DROP TABLE IF EXISTS InventoryObject;
 DROP TABLE IF EXISTS InventoryRecord;
 DROP TABLE IF EXISTS Inventory;
 DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Quest;
+DROP TABLE IF EXISTS QuestRecord;
 -- TRUNCATE Guild;
 -- TRUNCATE Status;
 -- TRUNCATE Player;
@@ -38,19 +40,15 @@ CREATE TABLE Player (
     Name        VARCHAR(20),
     Lv    INT,
     GuildID    INT,
-    FOREIGN KEY (GuildID) REFERENCES Guild(ID) ON DELETE SET NULL,
-    FOREIGN KEY (Lv) REFERENCES Status(Lv) ON DELETE SEt NULL
+    FOREIGN KEY (GuildID) REFERENCES Guild(ID) ON DELETE CASCADE,
+    FOREIGN KEY (Lv) REFERENCES Status(Lv) ON DELETE CASCADE
 );
 
     
 -- this should not have stats and also shouldnt have a type
-CREATE TABLE Inventory (
+CREATE TABLE InventoryObject (
     InventoryID INT PRIMARY KEY,
-    Name VARCHAR(50),
-    Type VARCHAR(50),
-    HP_plus INT,
-    MP_plus INT,
-    ATK_plus INT
+    Name VARCHAR(50)
 );
 
 CREATE TABLE InventoryRecord (
@@ -58,7 +56,7 @@ CREATE TABLE InventoryRecord (
     PlayerID INT,
     Quantity INT,
     PRIMARY KEY (InventoryID, PlayerID),
-    FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON DELETE CASCADE,
+    FOREIGN KEY (InventoryID) REFERENCES InventoryObject(InventoryID) ON DELETE CASCADE,
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
 
@@ -66,13 +64,17 @@ CREATE TABLE InventoryRecord (
 -- this should have stats
 CREATE TABLE Equipment (
     EquipmentID INT PRIMARY KEY,
-    FOREIGN KEY (EquipmentID) REFERENCES Inventory(InventoryID)
+    FOREIGN KEY (EquipmentID) REFERENCES InventoryObject(InventoryID),
+    HP_plus INT,
+    MP_plus INT,
+    ATK_plus INT
 );
 
 -- this should have a quantity
 CREATE TABLE Item (
-    ItemID INT not null REFERENCES Inventory(InventoryID),
-    PRIMARY KEY(ItemID)
+    ItemID INT PRIMARY KEY,
+    FOREIGN KEY (ItemID)REFERENCES InventoryObject(InventoryID),
+    Quality INT
 );
 
 CREATE TABLE Quest (
@@ -84,53 +86,57 @@ CREATE TABLE Quest (
 CREATE TABLE QuestRecord (
     QuestID INT,
     PlayerID INT,
+    TimesCleared INT,
     FOREIGN KEY (QuestID) REFERENCES Quest(ID) ON DELETE CASCADE,
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
 
 
 
-INSERT INTO Inventory VALUES (1, 'Aquila Favonia', 'Equipment', 1000, 0, 0);
-INSERT INTO Equipment VALUES (1);
+INSERT INTO InventoryObject VALUES (1,'Aquila Favonia');
+INSERT INTO Equipment VALUES (1, 1000, 0, 0);
 
-INSERT INTO Inventory VALUES (2, 'Dull Blade', 'Equipment', 0, 0, 0);
-INSERT INTO Equipment VALUES (2);
+INSERT INTO InventoryObject VALUES (2, 'Dull Blade');
+INSERT INTO Equipment VALUES (2, 0, 0, 0);
 
-INSERT INTO Inventory VALUES (3, 'Hanatsuki Paddle', 'Equipment', 100, 0, 0);
-INSERT INTO Equipment VALUES (3);
+INSERT INTO InventoryObject VALUES (3, 'Hanatsuki Paddle');
+INSERT INTO Equipment VALUES (3, 100, 0, 0);
 
-INSERT INTO Inventory VALUES (4, 'Rusty Sickle', 'Equipment', 10, 0, 0);
-INSERT INTO Equipment VALUES (4);
+INSERT INTO InventoryObject VALUES (4, 'Rusty Sickle');
+INSERT INTO Equipment VALUES (4, 10, 0, 0);
 
-INSERT INTO Inventory VALUES (5, 'Jotunheim', 'Equipment', 5000, 0, 0);
-INSERT INTO Equipment VALUES (5);
+INSERT INTO InventoryObject VALUES (5, 'Jotunheim');
+INSERT INTO Equipment VALUES (5, 5000, 0, 0);
 
-INSERT INTO Inventory VALUES (6, 'Jar', 'Item', 0, 0, 0);
-INSERT INTO Equipment VALUES (6);
 
-INSERT INTO Inventory VALUES (7, 'Stick', 'Equipment', 0, 0, 0);
-INSERT INTO Equipment VALUES (7);
+INSERT INTO InventoryObject VALUES (13, 'Diamond Shield');
+INSERT INTO Equipment VALUES (13, 213, 12, 1);
 
-INSERT INTO Inventory VALUES (8, 'Excalibur', 'Equipment', 1500, 0, 50);
-INSERT INTO Equipment VALUES (8);
+INSERT INTO InventoryObject VALUES (7, 'Stick');
+INSERT INTO Equipment VALUES (7, 500, 100, 30);
 
-INSERT INTO Inventory VALUES (9, 'Healing Potion', 'Item', 0, 50, 0);
-INSERT INTO Item VALUES (9);
+INSERT INTO InventoryObject VALUES (8, 'Excalibur');
+INSERT INTO Equipment VALUES (8, 5001, 1010, 310);
 
-INSERT INTO Inventory VALUES (10, 'Thunder Staff', 'Equipment', 500, 100, 30);
-INSERT INTO Equipment VALUES (10);
+INSERT INTO InventoryObject VALUES (10, 'Thunder Staff');
+INSERT INTO Equipment VALUES (10, 2000, 0, 20);
 
-INSERT INTO Inventory VALUES (11, 'Invisibility Cloak', 'Item', 0, 0, 0);
-INSERT INTO Item VALUES (11);
 
-INSERT INTO Inventory VALUES (12, 'Fireball Scroll', 'Item', 0, 20, 0);
-INSERT INTO Item VALUES (12);
+INSERT INTO InventoryObject VALUES (9, 'Healing Potion');
+INSERT INTO Item VALUES (9, 12);
 
-INSERT INTO Inventory VALUES (13, 'Diamond Shield', 'Equipment', 2000, 0, 20);
-INSERT INTO Equipment VALUES (13);
+INSERT INTO InventoryObject VALUES (6, 'Jar');
+INSERT INTO Item VALUES (6, 1500);
 
-INSERT INTO Inventory VALUES (14, 'Health Elixir', 'Item', 100, 0, 0);
-INSERT INTO Item VALUES (14);
+INSERT INTO InventoryObject VALUES (11, 'Invisibility Cloak');
+INSERT INTO Item VALUES (11, 123);
+
+INSERT INTO InventoryObject VALUES (12, 'Fireball Scroll');
+INSERT INTO Item VALUES (12, 756);
+
+
+INSERT INTO InventoryObject VALUES (14, 'Health Elixir');
+INSERT INTO Item VALUES (14, 4);
 
 
 
