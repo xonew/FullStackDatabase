@@ -277,7 +277,7 @@ async function deleteNamePlayertable(event) {
 
 // Function to fill the dropdown lists
 async function fillDropdownLists() {
-    let tables = await getAllTableAttributes();
+    const tables = await getAllTableAttributes();
     const tableDropdown = document.getElementById("tableDropdown");
     const attributeDropdown = document.getElementById("attributeDropdown");
     for (const table in tables) {
@@ -339,6 +339,10 @@ async function division() {
     simpleTableQuery('divisionTable')
 }
 
+async function aggHaving() {
+    simpleTableQuery('aggHavingTable')
+}
+
 
 
 async function displayProjectionTable() {
@@ -394,6 +398,53 @@ async function getProjectionTable(tableName, selectedOptions) {
 }
 
 
+//function that creates three fields: two dropdowns and a text field
+function addSelectFields() {
+    // Get the element where the inputs will be added to
+    var container = document.getElementById("container");
+    // Remove every children it had before
+    //while (container.hasChildNodes()) {
+    //    container.removeChild(container.lastChild);
+    //}
+    for (i=0;i<number;i++){
+        // Append a node with a random text
+        container.appendChild(document.createTextNode("Member " + (i+1)));
+        // Create an <input> element, set its type and name attributes
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "member" + i;
+        container.appendChild(input);
+        // Append a line break 
+        container.appendChild(document.createElement("br"));
+    }
+}
+/*async function fillDropdownLists() {
+    const tables = await getAllTableAttributes();
+    const tableDropdown = document.getElementById("tableDropdown");
+    const attributeDropdown = document.getElementById("attributeDropdown");
+    for (const table in tables) {
+        const option = document.createElement("option");
+        option.value = table;
+        option.text = table;
+        tableDropdown.add(option);
+    }
+
+    tableDropdown.addEventListener("change", () => {
+        const selectedTable = tableDropdown.value;
+        const attributes = tables[selectedTable] || [];
+        attributeDropdown.innerHTML = "";
+        for (const attribute of attributes) {
+            const option = document.createElement("option");
+            option.value = attribute;
+            option.text = attribute;
+            attributeDropdown.add(option);
+        }
+        attributeDropdown.multiple = true;
+    });
+}*/
+
+
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
@@ -412,6 +463,7 @@ window.onload = function () {
     document.getElementById("aggNested").addEventListener("click", aggNested);
     document.getElementById("aggGroupBy").addEventListener("click", aggGroupBy);
     document.getElementById("division").addEventListener("click", division);
+    document.getElementById("aggHaving").addEventListener("click", aggHaving);
 };
 
 

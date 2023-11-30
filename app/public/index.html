@@ -34,15 +34,6 @@
         <tbody>
         </tbody>
     </table>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2>Reset Playertable</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
-    <button id="resetDemotable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
-
     <br><hr><br> <!-- ========================================================================= -->
 
     <h2> Insert Values into PlayerTable </h2>
@@ -170,6 +161,18 @@
         </tbody>
     </table>
     <!-- ========================================================================= -->
+    <!-- Show 'aggGroupByTable'. -->
+    <h2>Aggregation with HAVING: Find the players who have more than 5 different items in their inventory
+    </h2>
+    <button id="aggHaving">Display!</button> <br />
+    <table id="aggHavingTable" border="1">
+        <thead>
+            
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <!-- ========================================================================= -->
     <!-- Show 'divisionTable'. -->
     <h2>Division:  find players who have completed all quests:</h2>
     <button id="division">Display!</button> <br />
@@ -181,6 +184,24 @@
         </tbody>
     </table>
     <!-- ========================================================================= -->
+
+    <h2>Select Table</h2>
+
+    <label for="selectTableDropdown">Select Table:</label>
+    <select id="selectTableDropdown"><option> -- </option> </select>
+    <div id="whereContainer"> </div>
+    <button id="displaySelectTable">Display!</button> <br />
+    <table id="projectionTable" border="1">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+        
+
+    <br />
+    <hr />
+    <br />
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
