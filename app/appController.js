@@ -36,25 +36,6 @@ router.get('/inventorytable', async (req, res) => {
 });
 
 
-router.post("/initiate-demotable", async (req, res) => {
-    const initiateResult = await appService.initiateDemotable();
-    console.log("initiate player request", initiateResult)
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/initiate-inventory", async (req, res) => {
-    const initiateResult = await appService.initiateInventory();
-    console.log("initiate inventory request", initiateResult);
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
 
 //later make this also get the collumns of each table
 router.post("/get-all", async (req, res) => {
@@ -164,7 +145,13 @@ const queries = {
             WHERE qr.PlayerID = p.ID AND qr.QuestID = q.ID
         )
     );
-    `
+    `,
+    'aggHavingTable': `SELECT ir.PlayerID, p.Name
+    FROM InventoryRecord AS ir
+    JOIN Player AS p ON ir.PlayerID = p.ID
+    GROUP BY ir.PlayerID, p.Name
+    HAVING COUNT(DISTINCT ir.InventoryID) > 5;`
+
 }
 
 router.post("/simple-table-query", async (req, res) => {
