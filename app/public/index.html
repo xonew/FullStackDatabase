@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+    
     <div class="container">
         <h1>DB Connection Status:
             <!-- An in-line placeholder to display connection status. -->
@@ -105,31 +105,31 @@
                     LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10"
                         maxlength="20"> <br><br>
 
-                    <button type="submit"> Set </button> <br>
-                </form>
-                <!-- A placeholder to display messages related to the update operation. -->
-                <div id="addStatusLVtoPlayerMsg"></div>
-            </div>
-            <br>
-            <hr><br> <!-- ========================================================================= -->
+                <button type="submit"> Set </button> <br>
+            </form>
+            <!-- A placeholder to display messages related to the update operation. -->
+            <div id="addStatusLVtoPlayerMsg"></div>
         </div>
-        <div class="functions-container">
-            <div class="fill">
-                <!--<div class="function">
-                     Show 'Inventorytable'. 
+        <br>
+        <hr><br> <!-- ========================================================================= -->
+    </div>
+    <div class="functions-container">
+        <div class="fill">
+            <div class="function">
+                <!-- Show 'Inventorytable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
                 <!-- <h2>InventoryObjects</h2>
                     <table id="inventorytable" border="1">
                         <thead>
 
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div> -->
-                <!-- ========================================================================= -->
-                <div class="function">
-                    <h2>Projection Table</h2>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- ========================================================================= -->
+            <div class="function">
+                <h2>Projection Table</h2>
 
                     <label for="tableDropdown">Select Table:</label>
                     <select id="tableDropdown">
@@ -230,22 +230,22 @@
                 <table id="divisionTable" border="1">
                     <thead>
 
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <!-- ========================================================================= -->
-
-            <!-- Show 'joinWhereTable'. -->
-            <div class="function">
-                <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
-                <form id="joinWhere">
-                    Item Name (case sensitive): <input type="text" id="joinId" placeholder="Jar" required> <br><br>
-                    <button id="joinWhere" type="submit"> Search </button> <br>
-                </form>
-                <table id="joinWhereTable" border="1">
-                    <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- ========================================================================= -->
+        
+        <!-- Show 'joinWhereTable'. -->
+        <div class="function">
+            <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
+            <form id="joinWhere">
+                Item Name: <input type="text" id="joinId" placeholder="Jar" required> <br><br>
+                <button id="joinWhere" type="submit"> Search </button> <br>
+            </form>
+            <table id="joinWhereTable" border="1">
+                <thead>
 
                     </thead>
                     <tbody>
