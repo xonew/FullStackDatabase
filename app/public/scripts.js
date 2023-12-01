@@ -77,9 +77,8 @@ async function displayTable(elementId, tableContent) {
                 cell.textContent = tuple[key];
             });
         });
-    } catch (err) {
+    } catch (error) {
         console.error(error);
-        alert("Error initiating table!");
     }
 }
 
@@ -344,10 +343,14 @@ async function joinWhere(event) {
     const targetID = document.getElementById('joinId').value;
     const response = await fetch("/join-where", {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
         body: JSON.stringify({
             ID: targetID
         })
     });
+    
     try {
         const responseData = await response.json();
         displayTable('joinWhereTable', responseData.data);
@@ -483,13 +486,11 @@ async function addSelectFields() {
             attributeValueArray.push(attribute);
             attributeValueArray.push(value);
         }
-        console.log("asdf:" + attributeValueArray);
         displaySelectTable(andOrArray, attributeValueArray);
     });
 }
 
 async function displaySelectTable(andOrArray, attributeValueArray) {
-    console.log("df" + attributeValueArray);
     const response = await fetch("/select", {
         method: "POST",
         headers: {
@@ -539,6 +540,6 @@ window.onload = function () {
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayTable('demotable');
-    fetchAndDisplayTable('inventorytable');
+    //fetchAndDisplayTable('inventorytable');
     displayProjectionTable();
 }

@@ -187,9 +187,8 @@ router.post("/simple-table-query", async (req, res) => {
 });
 
 router.post("/join-where", async (req, res) => {
-    console.log("aggWhere request")
-    const { id } = req.body;
-    const tableContent = await appService.joinWhere(id);
+    const { ID } = req.body;
+    const tableContent = await appService.joinWhere(ID);
     res.json({ data: tableContent });
 });
 

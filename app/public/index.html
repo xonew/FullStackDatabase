@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    
+
     <div class="container">
         <h1>DB Connection Status:
             <!-- An in-line placeholder to display connection status. -->
@@ -20,7 +20,7 @@
 
         <hr><br> <!-- ========================================================================= -->
         <button id="player-button"> Show/Hide Player Functions </button>
-        <div class="functions-container" id="player-container" style = "display: none;
+        <div class="functions-container" id="player-container" style="display: none;
         border: 3px double white;">
             <div class="fill">
                 <div class="function">
@@ -105,20 +105,20 @@
                     LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10"
                         maxlength="20"> <br><br>
 
-                <button type="submit"> Set </button> <br>
-            </form>
-            <!-- A placeholder to display messages related to the update operation. -->
-            <div id="addStatusLVtoPlayerMsg"></div>
+                    <button type="submit"> Set </button> <br>
+                </form>
+                <!-- A placeholder to display messages related to the update operation. -->
+                <div id="addStatusLVtoPlayerMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
         </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-    </div>
-    <div class="functions-container">
-        <div class="fill">
-            <div class="function">
-                <!-- Show 'Inventorytable'. 
+        <div class="functions-container">
+            <!-- <div class="fill">
+                <div class="function">
+                    Show 'Inventorytable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-                <!-- <h2>InventoryObjects</h2>
+            <!-- <h2>InventoryObjects</h2>
                     <table id="inventorytable" border="1">
                         <thead>
 
@@ -127,28 +127,26 @@
                     </tbody>
                 </table>
             </div>
-            <!-- ========================================================================= -->
+            ========================================================================= -->
             <div class="function">
                 <h2>Projection Table</h2>
 
-                    <label for="tableDropdown">Select Table:</label>
-                    <select id="tableDropdown">
-                        <option> -- </option>
-                    </select>
-                    <label for="attributeDropdown">Select Attribute(s) with shift and control:</label>
-                    <select id="attributeDropdown" multiple></select>
-                    <button id="displayProjectionTable">Display!</button> <br />
-                    <table id="projectionTable" border="1">
-                        <thead>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <br />
-                    <hr />
-                    <br />
-                </div>
-
+                <label for="tableDropdown">Select Table:</label>
+                <select id="tableDropdown">
+                    <option> -- </option>
+                </select>
+                <label for="attributeDropdown">Select Attribute(s) with shift and control:</label>
+                <select id="attributeDropdown" multiple></select>
+                <button id="displayProjectionTable">Display!</button> <br />
+                <table id="projectionTable" border="1">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br />
+                <hr />
+                <br />
             </div>
             <!-- ========================================================================= -->
             <!-- Show 'Inventorytable'. 
@@ -183,7 +181,8 @@
 
             </div>
             <div class="function">
-                <h2>Nested Aggregation with HAVING: Finds the guilds whose sum of player levels are greater than the max
+                <h2>Nested Aggregation with HAVING: Finds the guilds whose sum of player levels are greater than the
+                    max
                     player level (power of friendship) </h2>
                 <button id="aggNested">Display!</button> <br />
                 <table id="aggNestedTable" border="1">
@@ -197,7 +196,8 @@
             <!-- ========================================================================= -->
             <!-- Show 'aggGroupByTable'. -->
             <div class="function">
-                <h2>Aggregation with GROUP BY: Find the cumulative player level of all guilds that are the same level
+                <h2>Aggregation with GROUP BY: Find the cumulative player level of all guilds that are the same
+                    level
                 </h2>
                 <button id="aggGroupBy">Display!</button> <br />
                 <table id="aggGroupByTable" border="1">
@@ -211,7 +211,8 @@
             <!-- ========================================================================= -->
             <!-- Show 'aggGroupByTable'. -->
             <div class="function">
-                <h2>Aggregation with HAVING: Find the players who have more than 5 different items in their inventory
+                <h2>Aggregation with HAVING: Find the players who have more than 5 different items in their
+                    inventory
                 </h2>
                 <button id="aggHaving">Display!</button> <br />
                 <table id="aggHavingTable" border="1">
@@ -230,22 +231,22 @@
                 <table id="divisionTable" border="1">
                     <thead>
 
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <!-- ========================================================================= -->
-        
-        <!-- Show 'joinWhereTable'. -->
-        <div class="function">
-            <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
-            <form id="joinWhere">
-                Item Name: <input type="text" id="joinId" placeholder="Jar" required> <br><br>
-                <button id="joinWhere" type="submit"> Search </button> <br>
-            </form>
-            <table id="joinWhereTable" border="1">
-                <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- ========================================================================= -->
+
+            <!-- Show 'joinWhereTable'. -->
+            <div class="function">
+                <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
+                <form id="joinWhere">
+                    Item Name (case sensitive): <input type="text" id="joinId" placeholder="Jar" required> <br><br>
+                    <button id="joinWhere" type="submit"> Search </button> <br>
+                </form>
+                <table id="joinWhereTable" border="1">
+                    <thead>
 
                     </thead>
                     <tbody>
