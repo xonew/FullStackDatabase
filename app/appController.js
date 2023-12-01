@@ -53,51 +53,52 @@ router.post("/get-attributes", async (req, res) => {
     const result = await appService.getTableAttributes(name);
     fieldNames = result[0].map(element =>
         element.Field);
-    res.json({ tableAttributes: fieldNames});
+    res.json({ tableAttributes: fieldNames });
 });
 
 router.post("/insert-demotable", async (req, res) => {
     const { id, name } = req.body;
-    const insertResult = await appService.insertDemotable(id, name);
-    console.log("insert request: %d, %s, %s", id, name, insertResult);
-    if (insertResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
+    appService.insertDemotable(id, name).then((result) => {
+        console.log("insert request: %d, %s, %s", id, name, result);
+        res.json({ message: result });
+    }).catch((error) => {
+        console.error('An error occurred:', error.sqlMessage);
+        res.status(500).json({ message: error.sqlMessage });
+    });
 });
 
 router.post("/update-name-demotable", async (req, res) => {
     const { ID, newName } = req.body;
-    const updateResult = await appService.updateNameDemotable(ID, newName);
-    console.log("update name request: %d, %s, %s", ID, newName, updateResult);
-    if (updateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
+    appService.updateNameDemotable(ID, newName).then((result) => {
+        console.log("update name request: %d, %s, %s", ID, newName, result);
+        res.json({ message: result });
+    }).catch((error) => {
+        console.error('An error occurred:', error.sqlMessage);
+        res.status(500).json({ message: error.sqlMessage });
+    });
 });
 
 router.post("/add-guild", async (req, res) => {
     const { playerID, guildID } = req.body;
-    const updateGuild = await appService.addGuild(playerID, guildID);
-    console.log("guild join request: %d, %s, %s", playerID, guildID, updateGuild);
-    if (updateGuild) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
+    appService.addGuild(playerID, guildID).then((result) => {
+        console.log("guild join request: %d, %d, %s", playerID, guildID, result);
+        res.json({ message: result });
+    }).catch((error) => {
+        console.error('An error occurred:', error.sqlMessage);
+        res.status(500).json({ message: error.sqlMessage });
+    });
+
 });
 
 router.post("/add-status", async (req, res) => {
     const { playerID, LV } = req.body;
-    const updateStatus = await appService.addStatus(playerID, LV);
-    console.log("status update request: %d, %s, %s", playerID, LV, updateStatus);
-    if (updateStatus) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
+    appService.addStatus(playerID, LV).then((result) => {
+        console.log("status update request: %d, %d, %s", playerID, LV, result);
+        res.json({ message: result });
+    }).catch((error) => {
+        console.error('An error occurred:', error.sqlMessage);
+        res.status(500).json({ message: error.sqlMessage });
+    });
 });
 
 router.get('/count-demotable', async (req, res) => {
@@ -118,13 +119,13 @@ router.get('/count-demotable', async (req, res) => {
 
 router.post("/delete-player", async (req, res) => {
     const { id } = req.body;
-    const deleteResult = await appService.deletePlayer(id);
-    console.log("delete player request: " + id);
-    if (deleteResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
+    appService.deletePlayer(id).then((result) => {
+        console.log("delete player request: " + id);
+        res.json({ message: result });
+    }).catch((error) => {
+        console.error('An error occurred:', error.sqlMessage);
+        res.status(500).json({ message: error.sqlMessage });
+    });
 });
 
 
@@ -150,7 +151,7 @@ const queries = {
         GRoup By g.Lv        
         `,
     'aggNestedTable': `
-        SELECT GuildID, Name, COUNT(*), avg(Player.Lv)
+        SELECT GuildID, Guild.Name, COUNT(*), avg(Player.Lv)
         FROM Player
         INNER JOIN Guild ON Player.GuildID = Guild.ID
         GROUP BY GuildID

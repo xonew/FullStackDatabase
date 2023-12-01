@@ -120,13 +120,8 @@ async function insertDemotable(event) {
 
     const responseData = await response.json();
     const messageElement = document.getElementById('insertResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error inserting data!";
-    }
+    messageElement.textContent = responseData.message;
+    fetchTableData();
 }
 
 // Updates names in the demotable.
@@ -149,13 +144,8 @@ async function updateNameDemotable(event) {
 
     const responseData = await response.json();
     const messageElement = document.getElementById('updateNameResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Name updated successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error updating name!";
-    }
+    messageElement.textContent = responseData.message;
+    fetchTableData();
 }
 
 // add Guild ID to a player in the player table.
@@ -178,13 +168,8 @@ async function addGuildIDtoPlayer(event) {
 
     const responseData = await response.json();
     const messageElement = document.getElementById('addGuildIDtoPlayerMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Guild added successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error adding guild!";
-    }
+    messageElement.textContent = responseData.message;
+    fetchTableData();
 }
 
 // add StatusLV to a player in the player table.
@@ -207,13 +192,8 @@ async function addStatusLVtoPlayer(event) {
 
     const responseData = await response.json();
     const messageElement = document.getElementById('addStatusLVtoPlayerMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Status added successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error adding status!";
-    }
+    messageElement.textContent = responseData.message;
+    fetchTableData();
 }
 
 // Counts rows in the demotable.
@@ -253,13 +233,8 @@ async function deleteNamePlayertable(event) {
 
     const responseData = await response.json();
     const messageElement = document.getElementById('deleteNameResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Name deleted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error deleting name!";
-    }
+    messageElement.textContent = responseData.message;
+    fetchTableData();
 }
 
 
@@ -514,7 +489,7 @@ async function addSelectFields() {
 }
 
 async function displaySelectTable(andOrArray, attributeValueArray) {
-    console.log("df"+ attributeValueArray);
+    console.log("df" + attributeValueArray);
     const response = await fetch("/select", {
         method: "POST",
         headers: {

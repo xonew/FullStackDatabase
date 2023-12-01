@@ -25,7 +25,7 @@
                 <div class="function">
                 <!-- Show 'Demotable'. 
              Data will be fetched and inserted here dynamically using JavaScript. -->
-                <h2>Show PlayerTable</h2>
+                <h2>PlayerTable</h2>
                 <table id="demotable" border="1">
                     <thead>
                     </thead>
@@ -36,34 +36,32 @@
                 </div>
             </div>
         <div class="function">
-            <h2>Count the Players in PlayerTable</h2>
-            <button id="countDemotable"> count </button> <br><br>
+            <h2>Total Players</h2>
+            <button id="countDemotable"> Count </button> <br><br>
             <!-- A placeholder to display the count result. -->
             <div id="countResultMsg"></div> <br>
         </div>
         <br>
         <hr><br> <!-- ========================================================================= -->
         <div class="function">
-            <h2> Insert Values into PlayerTable </h2>
+            <h2> Register New Player </h2>
             <form id="insertDemotable">
                 ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
                 Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
-                <button type="submit"> insert </button> <br>
+                <button type="submit"> Insert </button> <br>
             </form>
             <div id="insertResultMsg"></div>
         </div>
         <br>
         <hr><br> <!-- ========================================================================= -->
         <div class="function">
-            <h2>Update Name in PlayerTable</h2>
-            <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do
-                anything.</p>
+            <h2>Update Player's Name</h2>
             <form id="updataNameDemotable">
                 Player ID: <input type="number" id="updateOldName" placeholder="Enter Player ID" required> <br><br>
                 New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20">
                 <br><br>
 
-                <button type="submit"> update </button> <br>
+                <button type="submit"> Update </button> <br>
             </form>
             <!-- A placeholder to display messages related to the update operation. -->
             <div id="updateNameResultMsg"></div>
@@ -72,9 +70,7 @@
         <hr><br> <!-- ========================================================================= -->
         <!--<br><hr><br>--> <!-- ========================================================================= -->
         <div class="function">
-            <h2>Delete Name in PlayerTable</h2>
-            <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do
-                anything.</p>
+            <h2>Delete Player</h2>
             <form id="deleteNamePlayertable">
                 ID: <input type="number" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
 
@@ -86,9 +82,7 @@
         <br>
         <hr><br> <!-- ========================================================================= -->
         <div class="function">
-            <h2>Add Guild ID to a player</h2>
-            <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do
-                anything.</p>
+            <h2>Add Player to Guild</h2>
             <form id="addGuildIDtoPlayer">
                 Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID"
                     required> <br><br>
@@ -103,16 +97,14 @@
         <br>
         <hr><br> <!-- ========================================================================= -->
         <div class="function">
-            <h2>Add Basic Status to a player (without inventories)</h2>
-            <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do
-                anything.</p>
+            <h2>Set Player Level</h2>
             <form id="addStatusLVtoPlayer">
                 Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID"
                     required> <br><br>
                 LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10"
                     maxlength="20"> <br><br>
 
-                <button type="submit"> Add </button> <br>
+                <button type="submit"> Set </button> <br>
             </form>
             <!-- A placeholder to display messages related to the update operation. -->
             <div id="addStatusLVtoPlayerMsg"></div>
@@ -125,7 +117,7 @@
             <div class="function">
                 <!-- Show 'Inventorytable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-                <h2>Show InventoryObject Table</h2>
+                <h2>InventoryObjects</h2>
                 <table id="inventorytable" border="1">
                     <thead>
 
@@ -142,7 +134,7 @@
                 <select id="tableDropdown">
                     <option> -- </option>
                 </select>
-                <label for="attributeDropdown">Select Attribute:</label>
+                <label for="attributeDropdown">Select Attribute(s) with shift and control:</label>
                 <select id="attributeDropdown" multiple></select>
                 <button id="displayProjectionTable">Display!</button> <br />
                 <table id="projectionTable" border="1">

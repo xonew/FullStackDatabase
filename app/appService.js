@@ -84,11 +84,9 @@ async function insertDemotable(id, name) {
         const [result, nothing] = await connection.execute(
             'INSERT INTO Player (id, name) VALUES (?, ?)',
             [id, name]);
-        return result.affectedRows && result.affectedRows > 0;
-    }).catch((err) => {
-        console.log(err);
-        return false;
-    });
+        console.log(result);
+        return (result.affectedRows && result.affectedRows > 0) ? "Success!" : "Nothing Changed!";
+    })
 }
 
 async function addGuild(playerID, guildID) {
@@ -97,11 +95,8 @@ async function addGuild(playerID, guildID) {
             'UPDATE Player SET GuildID = ? where ID = ?',
             [guildID, playerID]);
         console.log(result);
-        return result.affectedRows && result.affectedRows > 0;
-    }).catch((err) => {
-        console.log(err);
-        return false;
-    });
+        return (result.affectedRows && result.affectedRows > 0) ? "Success!" : "Either the player does not exist or nothing changed!";
+    })
 }
 
 async function addStatus(playerID, LV) {
@@ -111,10 +106,8 @@ async function addStatus(playerID, LV) {
             'UPDATE Player SET LV = ? where ID = ?',
             [LV, playerID]);
         console.log(result);
-        return result.affectedRows && result.affectedRows > 0;
-    }).catch(() => {
-        return false;
-    });
+        return (result.affectedRows && result.affectedRows > 0) ? "Success!" : "Either the player does not exist or nothing changed!";
+    })
 }
 
 async function performProjection(tableName, selectedOptions) {
@@ -135,10 +128,8 @@ async function updateNameDemotable(ID, newName) {
             'UPDATE Player SET Name = ? where ID = ?',
             [newName, ID]);
 
-        return result.affectedRows && result.affectedRows > 0;
-    }).catch(() => {
-        return false;
-    });
+        return (result.affectedRows && result.affectedRows > 0) ? "Success!" : "Either the player does not exist or nothing changed!";
+    })
 }
 
 async function countDemotable() {
@@ -159,10 +150,8 @@ async function deletePlayer(id) {
             [id]
         );
 
-        return result.affectedRows && result.affectedRows > 0;
-    }).catch(() => {
-        return false;
-    });
+        return (result.affectedRows && result.affectedRows > 0) ? "Success!" : "The player does not exist!";
+    })
 }
 
 
