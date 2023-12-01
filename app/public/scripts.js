@@ -527,6 +527,10 @@ window.onload = function () {
     document.getElementById("division").addEventListener("click", division);
     document.getElementById("aggHaving").addEventListener("click", aggHaving);
     document.getElementById("joinWhere").addEventListener("submit", joinWhere);
+    document.getElementById("player-button").onclick = function () {
+        const container = document.getElementById("player-container");
+        (container.style.display == "none") ? container.style.display = "flex" : container.style.display = "none";
+    };
 };
 
 

@@ -9,116 +9,184 @@
 </head>
 
 <body>
-    
+
     <div class="container">
         <h1>DB Connection Status:
             <!-- An in-line placeholder to display connection status. -->
-        <span id="dbStatus"> </span>
-        <!-- A loading GIF, will be hided once get the status. -->
-        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+            <span id="dbStatus"> </span>
+            <!-- A loading GIF, will be hided once get the status. -->
+            <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
         </h1>
 
         <hr><br> <!-- ========================================================================= -->
-
-        <div class="functions-container">
+        <button id="player-button"> Show/Hide Player Functions </button>
+        <div class="functions-container" id="player-container" style = "display: none;
+        border: 3px double white;">
             <div class="fill">
                 <div class="function">
-                <!-- Show 'Demotable'. 
+                    <!-- Show 'Demotable'. 
              Data will be fetched and inserted here dynamically using JavaScript. -->
-                <h2>PlayerTable</h2>
-                <table id="demotable" border="1">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <br>
+                    <h2>PlayerTable</h2>
+                    <table id="demotable" border="1">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <br>
                 </div>
             </div>
-        <div class="function">
-            <h2>Total Players</h2>
-            <button id="countDemotable"> Count </button> <br><br>
-            <!-- A placeholder to display the count result. -->
-            <div id="countResultMsg"></div> <br>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-        <div class="function">
-            <h2> Register New Player </h2>
-            <form id="insertDemotable">
-                ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
-                Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
-                <button type="submit"> Insert </button> <br>
-            </form>
-            <div id="insertResultMsg"></div>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-        <div class="function">
-            <h2>Update Player's Name</h2>
-            <form id="updataNameDemotable">
-                Player ID: <input type="number" id="updateOldName" placeholder="Enter Player ID" required> <br><br>
-                New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20">
-                <br><br>
-
-                <button type="submit"> Update </button> <br>
-            </form>
-            <!-- A placeholder to display messages related to the update operation. -->
-            <div id="updateNameResultMsg"></div>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-        <!--<br><hr><br>--> <!-- ========================================================================= -->
-        <div class="function">
-            <h2>Delete Player</h2>
-            <form id="deleteNamePlayertable">
-                ID: <input type="number" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
-
-                <button type="submit"> Delete</button> <br>
-            </form>
-            <!-- A placeholder to display messages related to the update operation. -->
-            <div id="deleteNameResultMsg"></div>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-        <div class="function">
-            <h2>Add Player to Guild</h2>
-            <form id="addGuildIDtoPlayer">
-                Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID"
-                    required> <br><br>
-                Guild ID: <input type="number" id="targetGuildIDToBeAdded"
-                    placeholder="Enter valid GuildID from 1 to 10" maxlength="20"> <br><br>
-
-                <button type="submit"> Add </button> <br>
-            </form>
-            <!-- A placeholder to display messages related to the update operation. -->
-            <div id="addGuildIDtoPlayerMsg"></div>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-        <div class="function">
-            <h2>Set Player Level</h2>
-            <form id="addStatusLVtoPlayer">
-                Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID"
-                    required> <br><br>
-                LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10"
-                    maxlength="20"> <br><br>
-
-                <button type="submit"> Set </button> <br>
-            </form>
-            <!-- A placeholder to display messages related to the update operation. -->
-            <div id="addStatusLVtoPlayerMsg"></div>
-        </div>
-        <br>
-        <hr><br> <!-- ========================================================================= -->
-    </div>
-    <div class="functions-container">
-        <div class="fill">
             <div class="function">
-                <!-- Show 'Inventorytable'. 
+                <h2>Total Players</h2>
+                <button id="countDemotable"> Count </button> <br><br>
+                <!-- A placeholder to display the count result. -->
+                <div id="countResultMsg"></div> <br>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+            <div class="function">
+                <h2> Register New Player </h2>
+                <form id="insertDemotable">
+                    ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
+                    Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
+                    <button type="submit"> Insert </button> <br>
+                </form>
+                <div id="insertResultMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+            <div class="function">
+                <h2>Update Player's Name</h2>
+                <form id="updataNameDemotable">
+                    Player ID: <input type="number" id="updateOldName" placeholder="Enter Player ID" required> <br><br>
+                    New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20">
+                    <br><br>
+
+                    <button type="submit"> Update </button> <br>
+                </form>
+                <!-- A placeholder to display messages related to the update operation. -->
+                <div id="updateNameResultMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+            <!--<br><hr><br>--> <!-- ========================================================================= -->
+            <div class="function">
+                <h2>Delete Player</h2>
+                <form id="deleteNamePlayertable">
+                    ID: <input type="number" id="deleteTargetID" placeholder="Enter Player" required> <br><br>
+
+                    <button type="submit"> Delete</button> <br>
+                </form>
+                <!-- A placeholder to display messages related to the update operation. -->
+                <div id="deleteNameResultMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+            <div class="function">
+                <h2>Add Player to Guild</h2>
+                <form id="addGuildIDtoPlayer">
+                    Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID"
+                        required> <br><br>
+                    Guild ID: <input type="number" id="targetGuildIDToBeAdded"
+                        placeholder="Enter valid GuildID from 1 to 10" maxlength="20"> <br><br>
+
+                    <button type="submit"> Add </button> <br>
+                </form>
+                <!-- A placeholder to display messages related to the update operation. -->
+                <div id="addGuildIDtoPlayerMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+            <div class="function">
+                <h2>Set Player Level</h2>
+                <form id="addStatusLVtoPlayer">
+                    Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID"
+                        required> <br><br>
+                    LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10"
+                        maxlength="20"> <br><br>
+
+                    <button type="submit"> Set </button> <br>
+                </form>
+                <!-- A placeholder to display messages related to the update operation. -->
+                <div id="addStatusLVtoPlayerMsg"></div>
+            </div>
+            <br>
+            <hr><br> <!-- ========================================================================= -->
+        </div>
+        <div class="functions-container">
+            <div class="fill">
+                <!--<div class="function">
+                     Show 'Inventorytable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-                <h2>InventoryObjects</h2>
-                <table id="inventorytable" border="1">
+                <!-- <h2>InventoryObjects</h2>
+                    <table id="inventorytable" border="1">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div> -->
+                <!-- ========================================================================= -->
+                <div class="function">
+                    <h2>Projection Table</h2>
+
+                    <label for="tableDropdown">Select Table:</label>
+                    <select id="tableDropdown">
+                        <option> -- </option>
+                    </select>
+                    <label for="attributeDropdown">Select Attribute(s) with shift and control:</label>
+                    <select id="attributeDropdown" multiple></select>
+                    <button id="displayProjectionTable">Display!</button> <br />
+                    <table id="projectionTable" border="1">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <br />
+                    <hr />
+                    <br />
+                </div>
+
+            </div>
+            <!-- ========================================================================= -->
+            <!-- Show 'Inventorytable'. 
+        Data will be fetched and inserted here dynamically using JavaScript. -->
+            <div class="fill">
+                <div class="function">
+                    <h2>Select Table</h2>
+
+                    <label for="selectTableDropdown">Find the players that have these attributes:</label>
+                    <div id="inputFields">
+                        <div id="inputGroup0">
+                            <select class="attribute" id="attribute0"></select>
+                            <span> is equal to</span>
+                            <input type="text" class="value">
+                        </div>
+                    </div>
+
+                    <button id="addButton">Add More</button>
+                    <button id="submitButton">Submit</button>
+                    <table id="selectTable" border="1">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <br />
+                    <hr />
+                    <br />
+                </div>
+
+
+
+            </div>
+            <div class="function">
+                <h2>Nested Aggregation with HAVING: Finds the guilds whose sum of player levels are greater than the max
+                    player level (power of friendship) </h2>
+                <button id="aggNested">Display!</button> <br />
+                <table id="aggNestedTable" border="1">
                     <thead>
 
                     </thead>
@@ -127,135 +195,68 @@
                 </table>
             </div>
             <!-- ========================================================================= -->
+            <!-- Show 'aggGroupByTable'. -->
             <div class="function">
-                <h2>Projection Table</h2>
-
-                <label for="tableDropdown">Select Table:</label>
-                <select id="tableDropdown">
-                    <option> -- </option>
-                </select>
-                <label for="attributeDropdown">Select Attribute(s) with shift and control:</label>
-                <select id="attributeDropdown" multiple></select>
-                <button id="displayProjectionTable">Display!</button> <br />
-                <table id="projectionTable" border="1">
+                <h2>Aggregation with GROUP BY: Find the cumulative player level of all guilds that are the same level
+                </h2>
+                <button id="aggGroupBy">Display!</button> <br />
+                <table id="aggGroupByTable" border="1">
                     <thead>
+
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
-                <br />
-                <hr />
-                <br />
+            </div>
+            <!-- ========================================================================= -->
+            <!-- Show 'aggGroupByTable'. -->
+            <div class="function">
+                <h2>Aggregation with HAVING: Find the players who have more than 5 different items in their inventory
+                </h2>
+                <button id="aggHaving">Display!</button> <br />
+                <table id="aggHavingTable" border="1">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- ========================================================================= -->
+            <!-- Show 'divisionTable'. -->
+            <div class="function">
+                <h2>Division: find players who have completed all quests:</h2>
+                <button id="division">Display!</button> <br />
+                <table id="divisionTable" border="1">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- ========================================================================= -->
+
+            <!-- Show 'joinWhereTable'. -->
+            <div class="function">
+                <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
+                <form id="joinWhere">
+                    Item Name (case sensitive): <input type="text" id="joinId" placeholder="Jar" required> <br><br>
+                    <button id="joinWhere" type="submit"> Search </button> <br>
+                </form>
+                <table id="joinWhereTable" border="1">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
 
+            <!-- ===================================================================================== -->
+            <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+            <script src="scripts.js"></script>
         </div>
-        <!-- ========================================================================= -->
-        <!-- Show 'Inventorytable'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-        <div class="function">
-            <h2>Nested Aggregation with HAVING: Finds the guilds whose sum of player levels are greater than the max
-                player level (power of friendship) </h2>
-            <button id="aggNested">Display!</button> <br />
-            <table id="aggNestedTable" border="1">
-                <thead>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <!-- ========================================================================= -->
-        <!-- Show 'aggGroupByTable'. -->
-        <div class="function">
-            <h2>Aggregation with GROUP BY: Find the cumulative player level of all guilds that are the same level
-            </h2>
-            <button id="aggGroupBy">Display!</button> <br />
-            <table id="aggGroupByTable" border="1">
-                <thead>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <!-- ========================================================================= -->
-        <!-- Show 'aggGroupByTable'. -->
-        <div class="function">
-            <h2>Aggregation with HAVING: Find the players who have more than 5 different items in their inventory
-            </h2>
-            <button id="aggHaving">Display!</button> <br />
-            <table id="aggHavingTable" border="1">
-                <thead>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <!-- ========================================================================= -->
-        <!-- Show 'divisionTable'. -->
-        <div class="function">
-            <h2>Division: find players who have completed all quests:</h2>
-            <button id="division">Display!</button> <br />
-            <table id="divisionTable" border="1">
-                <thead>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <!-- ========================================================================= -->
-        
-        <!-- Show 'joinWhereTable'. -->
-        <div class="function">
-            <h2>Find the names of all players who have a specific item (InventoryObject) in their inventory</h2>
-            <form id="joinWhere">
-                Item Name: <input type="text" id="joinId" placeholder="Jar" required> <br><br>
-                <button id="joinWhere" type="submit"> Search </button> <br>
-            </form>
-            <table id="joinWhereTable" border="1">
-                <thead>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="fill">
-            <div class = "function">
-            <h2>Select Table</h2>
-
-            <label for="selectTableDropdown">Find the players that have these attributes:</label>
-            <div id="inputFields">
-                <div id="inputGroup0">
-                    <select class="attribute" id="attribute0"></select>
-                    <span> is equal to</span>
-                    <input type="text" class="value">
-                </div>
-            </div>
-
-            <button id="addButton">Add More</button>
-            <button id="submitButton">Submit</button>
-            <table id="selectTable" border="1">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <br />
-            <hr />
-            <br />
-            </div>
-
-
-           
-        </div>
-        <!-- ===================================================================================== -->
-        <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-        <script src="scripts.js"></script>
-    </div>
     </div>
 </body>
 
