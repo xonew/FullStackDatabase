@@ -87,7 +87,7 @@ async function insertDemotable(id, name) {
         return result.affectedRows && result.affectedRows > 0;
     }).catch((err) => {
         console.log(err);
-        return false, sqlMessage;
+        return false;
     });
 }
 
@@ -219,7 +219,7 @@ async function select(andOrArray, attributeValueArray) {
         const result = await connection.query(query, attributeValueArray);
         return result;
     }).catch(() => {
-        return false;
+        return -1;
     });
 }
 

@@ -150,7 +150,7 @@ const queries = {
         GRoup By g.Lv        
         `,
     'aggNestedTable': `
-        SELECT GuildID, COUNT(*), avg(Player.Lv)
+        SELECT GuildID, Name, COUNT(*), avg(Player.Lv)
         FROM Player
         INNER JOIN Guild ON Player.GuildID = Guild.ID
         GROUP BY GuildID
