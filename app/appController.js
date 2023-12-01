@@ -145,7 +145,7 @@ router.post('/projection', async (req, res) => {
 
 const queries = {
     'aggGroupByTable': `
-        SELECT g.Lv, sum(p.Lv)
+        SELECT g.Lv as GuildLevel, sum(p.Lv) as TotalLv
         FROM Player p
         inner Join Guild g on p.GuildID = g.ID
         GRoup By g.Lv        

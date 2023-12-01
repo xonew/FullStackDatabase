@@ -181,7 +181,8 @@ async function joinWhere(id) {
         const result = await connection.query(`
             SELECT Player.Name FROM Player 
             INNER JOIN InventoryRecord ON Player.ID = InventoryRecord.PlayerID
-            WHERE InventoryRecord.InventoryID = 1;`,
+            INNER JOIN InventoryObject ON InventoryRecord.InventoryID = InventoryObject.InventoryID
+            WHERE InventoryObject.Name = ?;`,
             [id]);
         return result;
     }).catch(() => {

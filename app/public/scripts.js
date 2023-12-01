@@ -447,7 +447,7 @@ async function addSelectFields() {
 
 
         var newEquals = document.createElement('span');
-        newEquals.textContent = '=';
+        newEquals.textContent = 'is equal to';
         newInputGroup.appendChild(newEquals);
 
 

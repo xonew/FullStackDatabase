@@ -1,3 +1,19 @@
+/* 
+we need to drop the foreign key constraints first
+since we are dropping every single table from the database, we can just disable the foreign key checks
+and drop every table, which will delete all the foreign keys
+this should not be done if we were not dropping every table, since it will violate database integrity
+otherwise foreigh keys must be dropped first before tables
+ALTER TABLE Player DROP FOREIGN KEY Player_ibfk_1;
+ALTER TABLE Player DROP FOREIGN KEY Player_ibfk_2;
+ALTER TABLE InventoryRecord DROP FOREIGN KEY InventoryRecord_ibfk_1;
+ALTER TABLE InventoryRecord DROP FOREIGN KEY InventoryRecord_ibfk_2;
+ALTER TABLE QuestRecord DROP FOREIGN KEY QuestRecord_ibfk_1;
+ALTER TABLE QuestRecord DROP FOREIGN KEY QuestRecord_ibfk_2;
+ALTER TABLE Passive DROP FOREIGN KEY Passive_ibfk_1;
+ALTER TABLE Equipment DROP FOREIGN KEY Equipment_ibfk_1;
+ALTER TABLE Item DROP FOREIGN KEY Item_ibfk_1;
+*/
 SET FOREIGN_KEY_CHECKS = 0; 
 DROP TABLE IF EXISTS Guild;
 DROP TABLE IF EXISTS Status;
@@ -10,15 +26,6 @@ DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Quest;
 DROP TABLE IF EXISTS QuestRecord;
 DROP TABLE IF EXISTS Passive;
--- TRUNCATE Guild;
--- TRUNCATE Status;
--- TRUNCATE Player;
--- TRUNCATE InventoryRecord;
--- TRUNCATE Inventory;
--- TRUNCATE Equipment;
--- TRUNCATE Item;
--- TRUNCATE Quest;
--- TRUNCATE QuestRecord;
 SET FOREIGN_KEY_CHECKS = 1; 
 -- GRANT ALL ON db.* TO 'username'@'%';
 
@@ -34,6 +41,7 @@ CREATE TABLE Guild (
     ID INT PRIMARY KEY,
     LV INT,
     Name VARCHAR(50)
+
 );
 
 CREATE TABLE Player (
@@ -46,7 +54,6 @@ CREATE TABLE Player (
 );
 
     
--- this should not have stats and also shouldnt have a type
 CREATE TABLE InventoryObject (
     InventoryID INT PRIMARY KEY,
     Name VARCHAR(50)
@@ -62,7 +69,6 @@ CREATE TABLE InventoryRecord (
 );
 
 
--- this should have stats
 CREATE TABLE Equipment (
     EquipmentID INT PRIMARY KEY,
     FOREIGN KEY (EquipmentID) REFERENCES InventoryObject(InventoryID),
@@ -71,10 +77,9 @@ CREATE TABLE Equipment (
     ATK_plus INT
 );
 
--- this should have a quantity
 CREATE TABLE Item (
     ItemID INT PRIMARY KEY,
-    FOREIGN KEY (ItemID)REFERENCES InventoryObject(InventoryID),
+    FOREIGN KEY (ItemID) REFERENCES InventoryObject(InventoryID),
     Quality INT
 );
 
