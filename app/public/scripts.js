@@ -310,6 +310,20 @@ async function getAllTableAttributes() {
     return responseData.tableAttributes;
 }
 
+async function getAttributes(tableName) {
+    const response = await fetch('/get-attributes', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: tableName,
+        }),
+    });
+    const responseData = await response.json();
+    return responseData.tableAttributes;
+}
+
 async function simpleTableQuery(table_name) {
     const response = await fetch('/simple-table-query', {
         method: 'POST',
@@ -358,8 +372,8 @@ async function joinWhere(event) {
         const responseData = await response.json();
         displayTable('joinWhereTable', responseData.data);
     } catch (error) {
-    console.error("Error:", error.message);
-}
+        console.error("Error:", error.message);
+    }
 }
 
 async function displayProjectionTable() {
@@ -416,46 +430,83 @@ async function getProjectionTable(tableName, selectedOptions) {
 
 
 //function that creates three fields: two dropdowns and a text field
-function addSelectFields() {
-    // Get the element where the inputs will be added to
-    const container = document.getElementById("whereContainer");
-    // Remove every children it had before
-    //while (container.hasChildNodes()) {
-    //    container.removeChild(container.lastChild);
-    //}
-    // Append a node with a random text
-    container.appendChild(document.createTextNode("Member " + (i + 1)));
-    const childContainer = document.createElement("div");
-    // Create an <input> element, set its type and name attributes
-    var input = document.createElement("clauseContainer");
-    input.type = "text";
-    input.name = "member" + i;
-    container.appendChild(input);
-    // Append a line break 
-    container.appendChild(document.createElement("br"));
-}
-async function fillSelectDropdownLists() {
-    const tables = await getAllTableAttributes();
-    const tableDropdown = document.getElementById("selectTableDropdown");
-    const attributeDropdown = document.getElementById("attributeDropdown");
-    for (const table in tables) {
+async function addSelectFields() {
+    const attributes = await getAttributes("Player");
+    const tableDropdown = document.getElementById("attribute0");
+    attributes.map(element => {
         const option = document.createElement("option");
-        option.value = table;
-        option.text = table;
+        option.value = element;
+        option.text = element;
         tableDropdown.add(option);
-    }
+        return option;
+    })
+    document.getElementById('addButton').addEventListener('click', () => {
+        // Create a new input group
+        var newInputGroup = document.createElement('div');
+        newInputGroup.className = 'inputGroup';
 
-    tableDropdown.addEventListener("change", () => {
-        const selectedTable = tableDropdown.value;
-        const attributes = tables[selectedTable] || [];
-        attributeDropdown.innerHTML = "";
+        // Create the AND/OR dropdown
+        var newAndOr = document.createElement('select');
+        newAndOr.className = 'andOr';
+        newAndOr.innerHTML = '<option value="AND">AND</option><option value="OR">OR</option>';
+        newInputGroup.appendChild(newAndOr);
+
+
+        // Create the attribute dropdown
+        var newAttribute = document.createElement('select');
+        newAttribute.className = 'attribute';
+        newInputGroup.appendChild(newAttribute);
+        newAttribute.innerHTML = "";
         for (const attribute of attributes) {
             const option = document.createElement("option");
             option.value = attribute;
             option.text = attribute;
-            attributeDropdown.add(option);
+            newAttribute.add(option);
         }
-        attributeDropdown.multiple = true;
+        newInputGroup.appendChild(newAttribute);
+
+        // Create the equals sign
+        var newEquals = document.createElement('span');
+        newEquals.textContent = '=';
+        newInputGroup.appendChild(newEquals);
+
+        // Create the value input field
+        var newValue = document.createElement('input');
+        newValue.type = 'text';
+        newValue.className = 'value';
+        newInputGroup.appendChild(newValue);
+
+        // Create the delete button
+        var newDeleteButton = document.createElement('button');
+        newDeleteButton.textContent = 'Delete';
+        newDeleteButton.className = 'deleteButton';
+        newDeleteButton.addEventListener('click', function () {
+            newInputGroup.remove();
+        });
+        newInputGroup.appendChild(newDeleteButton);
+
+        // Add the new input group to the page
+        document.getElementById('inputFields').appendChild(newInputGroup);
+    });
+
+    document.getElementById('submitButton').addEventListener('click', function () {
+        // Get all input groups
+        var inputGroups = document.getElementsByClassName('inputGroup');
+        var zero = document.getElementById('inputGroup0');
+        // Initialize arrays
+        var andOrArray = [];
+        var attributeValueArray = [zero.getElementsByClassName('attribute')[0].value, zero.getElementsByClassName('value')[0].value];
+        for (var i = 0; i < inputGroups.length; i++) {
+            if (inputGroups[i].getElementsByClassName('andOr')[0].value) andOrArray.push(inputGroups[i].getElementsByClassName('andOr')[0].value);
+            var attribute = inputGroups[i].getElementsByClassName('attribute')[0].value;
+            var value = inputGroups[i].getElementsByClassName('value')[0].value;
+            attributeValueArray.push(attribute);
+            attributeValueArray.push(value);
+        }
+
+        // Log the combined entries
+        console.log(andOrArray);
+        console.log(attributeValueArray);
     });
 }
 
@@ -468,6 +519,7 @@ window.onload = function () {
     checkDbConnection();
     fillDropdownLists();
     fetchTableData();
+    addSelectFields();
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);

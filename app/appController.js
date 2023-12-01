@@ -37,13 +37,28 @@ router.get('/inventorytable', async (req, res) => {
 
 
 
-//later make this also get the collumns of each table
 router.post("/get-all", async (req, res) => {
     const result = await appService.getAllTableNames();
     const tableNames = result[0].map(element =>
         element.Tables_in_db);
     const tableAttributes = await appService.getAllTableAttributes(tableNames);
     res.json({ tableAttributes: tableAttributes });
+});
+
+router.post("/get-table-names", async (req, res) => {
+    const result = await appService.getAllTableNames();
+    const tableNames = result[0].map(element =>
+        element.Tables_in_db);
+    res.json({ tableNames: tableNames });
+});
+
+
+router.post("/get-attributes", async (req, res) => {
+    const { name } = req.body;
+    const result = await appService.getTableAttributes(name);
+    fieldNames = result[0].map(element =>
+        element.Field);
+    res.json({ tableAttributes: fieldNames});
 });
 
 router.post("/insert-demotable", async (req, res) => {

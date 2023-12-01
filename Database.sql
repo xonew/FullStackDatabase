@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Quest;
 DROP TABLE IF EXISTS QuestRecord;
+DROP TABLE IF EXISTS Passive;
 -- TRUNCATE Guild;
 -- TRUNCATE Status;
 -- TRUNCATE Player;
@@ -91,6 +92,13 @@ CREATE TABLE QuestRecord (
     FOREIGN KEY (PlayerID) REFERENCES Player(ID) ON DELETE CASCADE
 );
 
+CREATE TABLE Passive (
+    EquipmentID INT,
+    PassiveID INT,
+    PassiveName VARCHAR(50),
+    PRIMARY KEY (EquipmentID, PassiveID),
+    FOREIGN KEY (EquipmentID) REFERENCES Equipment(EquipmentID)
+);
 
 
 INSERT INTO InventoryObject VALUES (1,'Aquila Favonia');
@@ -186,3 +194,30 @@ INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (2, 2, 15);
 INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (3, 3, 20);
 INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (4, 4, 25);
 INSERT INTO InventoryRecord (InventoryID, PlayerID, Quantity) VALUES (5, 5, 30);
+
+INSERT INTO QuestRecord VALUES (1, 1, 1);
+INSERT INTO QuestRecord VALUES (2, 1, 1);
+INSERT INTO QuestRecord VALUES (3, 1, 1);
+INSERT INTO QuestRecord VALUES (4, 1, 1);
+INSERT INTO QuestRecord VALUES (5, 1, 1);
+INSERT INTO QuestRecord VALUES (6, 1, 1);
+INSERT INTO QuestRecord VALUES (7, 1, 1);
+INSERT INTO QuestRecord VALUES (8, 1, 1);
+INSERT INTO QuestRecord VALUES (9, 1, 1);
+INSERT INTO QuestRecord VALUES (10, 1, 1);
+
+INSERT INTO QuestRecord VALUES (2, 2, 1);
+INSERT INTO QuestRecord VALUES (7, 2, 2);
+
+INSERT INTO QuestRecord VALUES (1, 3, 7);
+
+INSERT INTO QuestRecord VALUES (10, 4, 1);
+
+
+INSERT INTO Passive VALUES (1, 1, 'Guardians Shield');
+INSERT INTO Passive VALUES (1, 2, 'Aura of Fortitude');
+INSERT INTO Passive VALUES (2, 2, 'Aura of Fortitude');
+INSERT INTO Passive VALUES (3, 3, 'Rapid Strikes');
+INSERT INTO Passive VALUES (4, 4, 'Precision Mastery');
+INSERT INTO Passive VALUES (4, 5, 'Elemental Fusion');
+INSERT INTO Passive VALUES (5, 6, 'Arcane Ward');
