@@ -39,15 +39,27 @@ async function getAllTableNames() {
 //Gets all the attributes of all tables given, returns an object with the table name as the key and the attributes as the value
 async function getAllTableAttributes(tableNames) {
     let tableAttributes = {};
-    for (let name of tableNames) {
-        const value = await withDB(async (connection) => {
-            return await connection.query(`SHOW COLUMNS FROM ??`, [name]);
-        }).catch(() => {
-            return false;
-        });
-        tableAttributes[name] = value[0].map(element => element.Field);
-    }
+
+    await withDB(async (connection) => {
+        for (let name of tableNames) {
+            const value = await connection.query(`SHOW COLUMNS FROM ??`, [name]);
+            tableAttributes[name] = value[0].map(element => element.Field);
+        }
+    }).catch(() => {
+        return false;
+    });
+
     return tableAttributes;
+}
+
+//Gets all the attributes of the table given, returns an array of attributes as the value
+async function getTableAttributes(name) {
+    console.log("getting attributes of table: %s", name);
+    return await withDB(async (connection) => {
+        return await connection.query(`SHOW COLUMNS FROM ??`, [name]);
+    }).catch(() => {
+        return false;
+    });
 }
 
 async function testDBConnection() {
@@ -200,6 +212,7 @@ module.exports = {
     performProjection,
     getAllTableNames,
     getAllTableAttributes,
+    getTableAttributes,
     simpleTableQuery,
     joinWhere
 };

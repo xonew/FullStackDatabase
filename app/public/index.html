@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="styles.css">
+
 <head>
     <meta charset="UTF-8">
     <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
@@ -11,19 +12,21 @@
 
     <title>Database Application</title>
 </head>
+
 <body>
     <!-- ===================================================================================== -->
     <!-- Display the current status of the database connection. 
          !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
          -->
-    <h1>DB Connection Status: 
+    <h1>DB Connection Status:
         <!-- An in-line placeholder to display connection status. -->
         <span id="dbStatus"> </span>
         <!-- A loading GIF, will be hided once get the status. -->
         <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
     </h1>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <!-- Show 'Demotable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
@@ -34,7 +37,8 @@
         <tbody>
         </tbody>
     </table>
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2> Insert Values into PlayerTable </h2>
     <form id="insertDemotable">
@@ -44,7 +48,8 @@
     </form>
     <div id="insertResultMsg"></div>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2>Update Name in PlayerTable</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
@@ -57,14 +62,16 @@
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="updateNameResultMsg"></div>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2>Count the Tuples in DemoTable</h2>
     <button id="countDemotable"> count </button> <br><br>
     <!-- A placeholder to display the count result. -->
     <div id="countResultMsg"></div> <br>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2>Delete Name in PlayerTable</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
@@ -76,65 +83,51 @@
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="deleteNameResultMsg"></div>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2>Add Guild ID to a player</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
     <form id="addGuildIDtoPlayer">
-        Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID" required> <br><br>
-        Guild ID: <input type="number" id="targetGuildIDToBeAdded" placeholder="Enter valid GuildID from 1 to 10" maxlength="20"> <br><br>
+        Player ID: <input type="number" id="targetPlayerIDtoAddGuild" placeholder="Enter Valid Player ID" required>
+        <br><br>
+        Guild ID: <input type="number" id="targetGuildIDToBeAdded" placeholder="Enter valid GuildID from 1 to 10"
+            maxlength="20"> <br><br>
 
         <button type="submit"> Add </button> <br>
     </form>
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="addGuildIDtoPlayerMsg"></div>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <h2>Add Basic Status to a player (without inventories)</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
     <form id="addStatusLVtoPlayer">
-        Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID" required> <br><br>
-        LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10" maxlength="20"> <br><br>
+        Player ID: <input type="number" id="targetPlayerIDtoAddStatus" placeholder="Enter Valid Player ID" required>
+        <br><br>
+        LV: <input type="number" id="targetStatusLVToBeAdded" placeholder="Enter valid LV from 1 to 10" maxlength="20">
+        <br><br>
 
         <button type="submit"> Add </button> <br>
     </form>
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="addStatusLVtoPlayerMsg"></div>
 
-    <br><hr><br> <!-- ========================================================================= -->
+    <br>
+    <hr><br> <!-- ========================================================================= -->
 
     <!-- Show 'Inventorytable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Inventory Table</h2>
     <table id="inventorytable" border="1">
         <thead>
-            
+
         </thead>
         <tbody>
         </tbody>
     </table>
-
-    <!-- ========================================================================= -->
-
-    <h2>Projection Table</h2>
-
-    <label for="tableDropdown">Select Table:</label>
-    <select id="tableDropdown"><option> -- </option> </select>
-    <label for="attributeDropdown">Select Attribute:</label>
-    <select id="attributeDropdown" multiple></select>
-    <button id="displayProjectionTable">Display!</button> <br />
-    <table id="projectionTable" border="1">
-        <thead>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-        
-
-    <br />
-    <hr />
-    <br />
 
     <!-- ========================================================================= -->
     <!-- Show 'Inventorytable'. 
@@ -151,11 +144,11 @@
     
     <!-- ========================================================================= -->
     <!-- Show 'aggGroupByTable'. -->
-    <h2>Aggregation with GROUP BY:  Find the cumulative player level of all guilds that are the same level</h2>
+    <h2>Aggregation with GROUP BY: Find the cumulative player level of all guilds that are the same level</h2>
     <button id="aggGroupBy">Display!</button> <br />
     <table id="aggGroupByTable" border="1">
         <thead>
-            
+
         </thead>
         <tbody>
         </tbody>
@@ -167,29 +160,61 @@
     <button id="aggHaving">Display!</button> <br />
     <table id="aggHavingTable" border="1">
         <thead>
-            
+
         </thead>
         <tbody>
         </tbody>
     </table>
     <!-- ========================================================================= -->
     <!-- Show 'divisionTable'. -->
-    <h2>Division:  find players who have completed all quests:</h2>
+    <h2>Division: find players who have completed all quests:</h2>
     <button id="division">Display!</button> <br />
     <table id="divisionTable" border="1">
         <thead>
-            
+
         </thead>
         <tbody>
         </tbody>
     </table>
     <!-- ========================================================================= -->
 
+    <h2>Projection Table</h2>
+
+    <label for="tableDropdown">Select Table:</label>
+    <select id="tableDropdown">
+        <option> -- </option>
+    </select>
+    <label for="attributeDropdown">Select Attribute:</label>
+    <select id="attributeDropdown" multiple></select>
+    <button id="displayProjectionTable">Display!</button> <br />
+    <table id="projectionTable" border="1">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <br />
+    <hr />
+    <br />
+
+    <!-- ========================================================================= -->
+
     <h2>Select Table</h2>
 
-    <label for="selectTableDropdown">Select Table:</label>
-    <select id="selectTableDropdown"><option> -- </option> </select>
-    <div id="whereContainer"> </div>
+    <label for="selectTableDropdown">Select All Players Where:</label>
+    <div id="inputFields">
+        <div id="inputGroup0">
+            <select class="attribute" id="attribute0"></select>
+            <span>=</span>
+            <input type="text" class="value">
+        </div>
+    </div>
+
+    <button id="addButton">Add More</button>
+    <button id="submitButton">Submit</button>
+
     <button id="displaySelectTable">Display!</button> <br />
     <table id="selectTable" border="1">
         <thead>
@@ -197,20 +222,20 @@
         <tbody>
         </tbody>
     </table>
-        
+
 
     <br />
     <hr />
     <br />
-<!-- Show 'joinWhereTable'. -->
+    <!-- Show 'joinWhereTable'. -->
     <h2>Find the names of all players who have a specific item in their inventory</h2>
     <form id="joinWhere">
         ID: <input type="text" id="joinId" placeholder="Enter InventoryObject ID" required> <br><br>
-        <button id = "joinWhere" type="submit"> Search </button> <br>
+        <button id="joinWhere" type="submit"> Search </button> <br>
     </form>
     <table id="joinWhereTable" border="1">
         <thead>
-            
+
         </thead>
         <tbody>
         </tbody>
@@ -219,4 +244,5 @@
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>
 </body>
+
 </html>
