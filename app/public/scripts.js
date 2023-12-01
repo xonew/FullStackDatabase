@@ -51,31 +51,36 @@ async function fetchAndDisplayTable(elementId) {
 
 // tableContent is from .json().data
 async function displayTable(elementId, tableContent) {
-    const tableElement = document.getElementById(elementId);
-    const tableBody = tableElement.querySelector('tbody');
-    // Always clear old, already fetched data before new fetching process.
-    if (tableBody) {
-        tableBody.innerHTML = '';
-    }
-    const header = tableElement.querySelector('thead')
-    if (header) {
-        header.innerHTML = '';
-    }
-    const headerRow = header.insertRow();
-    const [values, fields] = tableContent;
-    fields.forEach(tuple => {
-        headerRow.appendChild(document.createElement('th')).appendChild(document.createTextNode(tuple.name));
-        //const headerCell = headerRow.insertCell();
-        //headerCell.textContent = tuple.name;
-    });
-    // DemotableContent[0] has values, DemotableContent[1] has column names
-    values.forEach(tuple => {
-        const row = tableBody.insertRow();
-        Object.keys(tuple).forEach((key, index) => {
-            const cell = row.insertCell(index);
-            cell.textContent = tuple[key];
+    try {
+        const tableElement = document.getElementById(elementId);
+        const tableBody = tableElement.querySelector('tbody');
+        // Always clear old, already fetched data before new fetching process.
+        if (tableBody) {
+            tableBody.innerHTML = '';
+        }
+        const header = tableElement.querySelector('thead')
+        if (header) {
+            header.innerHTML = '';
+        }
+        const headerRow = header.insertRow();
+        const [values, fields] = tableContent;
+        fields.forEach(tuple => {
+            headerRow.appendChild(document.createElement('th')).appendChild(document.createTextNode(tuple.name));
+            //const headerCell = headerRow.insertCell();
+            //headerCell.textContent = tuple.name;
         });
-    });
+        // DemotableContent[0] has values, DemotableContent[1] has column names
+        values.forEach(tuple => {
+            const row = tableBody.insertRow();
+            Object.keys(tuple).forEach((key, index) => {
+                const cell = row.insertCell(index);
+                cell.textContent = tuple[key];
+            });
+        });
+    } catch (err) {
+        console.error(error);
+        alert("Error initiating table!");
+    }
 }
 
 // This function resets or initializes the demotable.
@@ -406,7 +411,7 @@ async function getProjectionTable(tableName, selectedOptions) {
     if (selectedOptions.length > 0) {
         try {
             const response = await fetch("/projection", {
-                method: "PUT",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -441,18 +446,18 @@ async function addSelectFields() {
         return option;
     })
     document.getElementById('addButton').addEventListener('click', () => {
-        // Create a new input group
+
         var newInputGroup = document.createElement('div');
         newInputGroup.className = 'inputGroup';
 
-        // Create the AND/OR dropdown
+
         var newAndOr = document.createElement('select');
         newAndOr.className = 'andOr';
         newAndOr.innerHTML = '<option value="AND">AND</option><option value="OR">OR</option>';
         newInputGroup.appendChild(newAndOr);
 
 
-        // Create the attribute dropdown
+
         var newAttribute = document.createElement('select');
         newAttribute.className = 'attribute';
         newInputGroup.appendChild(newAttribute);
@@ -465,18 +470,18 @@ async function addSelectFields() {
         }
         newInputGroup.appendChild(newAttribute);
 
-        // Create the equals sign
+
         var newEquals = document.createElement('span');
         newEquals.textContent = '=';
         newInputGroup.appendChild(newEquals);
 
-        // Create the value input field
+
         var newValue = document.createElement('input');
         newValue.type = 'text';
         newValue.className = 'value';
         newInputGroup.appendChild(newValue);
 
-        // Create the delete button
+
         var newDeleteButton = document.createElement('button');
         newDeleteButton.textContent = 'Delete';
         newDeleteButton.className = 'deleteButton';
@@ -485,15 +490,15 @@ async function addSelectFields() {
         });
         newInputGroup.appendChild(newDeleteButton);
 
-        // Add the new input group to the page
+
         document.getElementById('inputFields').appendChild(newInputGroup);
     });
 
     document.getElementById('submitButton').addEventListener('click', function () {
-        // Get all input groups
+
         var inputGroups = document.getElementsByClassName('inputGroup');
         var zero = document.getElementById('inputGroup0');
-        // Initialize arrays
+
         var andOrArray = [];
         var attributeValueArray = [zero.getElementsByClassName('attribute')[0].value, zero.getElementsByClassName('value')[0].value];
         for (var i = 0; i < inputGroups.length; i++) {
@@ -503,13 +508,28 @@ async function addSelectFields() {
             attributeValueArray.push(attribute);
             attributeValueArray.push(value);
         }
-
-        // Log the combined entries
-        console.log(andOrArray);
-        console.log(attributeValueArray);
+        console.log("asdf:" + attributeValueArray);
+        displaySelectTable(andOrArray, attributeValueArray);
     });
 }
 
+async function displaySelectTable(andOrArray, attributeValueArray) {
+    console.log("df"+ attributeValueArray);
+    const response = await fetch("/select", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            andOrArray: andOrArray,
+            attributeValueArray: attributeValueArray
+        })
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    const tableContent = responseData.data;
+    displayTable('selectTable', tableContent);
+}
 
 
 // ---------------------------------------------------------------

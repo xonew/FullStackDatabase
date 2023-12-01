@@ -187,10 +187,17 @@
     <div class="function">
     <h2>Select Table</h2>
 
-    <label for="selectTableDropdown">Select Table:</label>
-    <select id="selectTableDropdown"><option> -- </option> </select>
-    <div id="whereContainer"> </div>
-    <button id="displaySelectTable">Display!</button> <br />
+    <label for="selectTableDropdown">Select All Players Where:</label>
+    <div id="inputFields">
+        <div id="inputGroup0">
+            <select class="attribute" id="attribute0"></select>
+            <span>=</span>
+            <input type="text" class="value">
+        </div>
+    </div>
+
+    <button id="addButton">Add More</button>
+    <button id="submitButton">Submit</button>
     <table id="selectTable" border="1">
         <thead>
         </thead>

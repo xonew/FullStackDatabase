@@ -22,12 +22,7 @@ router.get('/demotable', async (req, res) => {
     res.json({ data: tableContent });
 });
 
-router.put('/projection', async (req, res) => {
-    const { table_name, attributes } = req.body;
-    console.log("projection request: %s, %s", table_name, attributes)
-    const tableContent = await appService.performProjection(table_name, attributes);
-    res.json({ data: tableContent });
-});
+
 
 router.get('/inventorytable', async (req, res) => {
     const tableContent = await appService.fetchInventory();
@@ -130,6 +125,21 @@ router.post("/delete-player", async (req, res) => {
     } else {
         res.status(500).json({ success: false });
     }
+});
+
+
+router.post('/select', async (req, res) => {
+    console.log(req.body);
+    const { andOrArray, attributeValueArray } = req.body;
+    const tableContent = await appService.select(andOrArray, attributeValueArray);
+    res.json({ data: tableContent });
+});
+
+router.post('/projection', async (req, res) => {
+    const { table_name, attributes } = req.body;
+    console.log("projection request: %s, %s", table_name, attributes)
+    const tableContent = await appService.performProjection(table_name, attributes);
+    res.json({ data: tableContent });
 });
 
 const queries = {

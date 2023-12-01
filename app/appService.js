@@ -1,3 +1,4 @@
+const { query } = require('express');
 const mySQL = require('mysql2/promise');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
@@ -86,7 +87,7 @@ async function insertDemotable(id, name) {
         return result.affectedRows && result.affectedRows > 0;
     }).catch((err) => {
         console.log(err);
-        return false;
+        return false, sqlMessage;
     });
 }
 
@@ -199,6 +200,29 @@ async function joinWhere(id) {
     });
 }
 
+async function select(andOrArray, attributeValueArray) {
+    var query = "SELECT * FROM Player WHERE ?? = ?";
+    if (andOrArray)
+        andOrArray.forEach(element => {
+            //extra precaustion against injects
+            if (element == "AND") {
+                query += " " + element + " ?? = ? ";
+            }
+            if (element == "OR") {
+                query += " " + element + " ?? = ? ";
+            }
+        });
+
+    query += ";";
+    return await withDB(async (connection) => {
+        console.log(connection.format(query, attributeValueArray));
+        const result = await connection.query(query, attributeValueArray);
+        return result;
+    }).catch(() => {
+        return false;
+    });
+}
+
 module.exports = {
     testDBConnection,
     fetchDemotableFromDb,
@@ -214,5 +238,6 @@ module.exports = {
     getAllTableAttributes,
     getTableAttributes,
     simpleTableQuery,
-    joinWhere
+    joinWhere,
+    select
 };
